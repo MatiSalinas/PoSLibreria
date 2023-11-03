@@ -1,91 +1,68 @@
-#Grupo 19 libreria
+import libreriaClases
+from PyQt6 import uic
+from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem
+from PyQt6.QtCore import QTime,QTimer
+Caja01= libreriaClases.Caja(1,'Matias')
+inventario = libreriaClases.Inventario()
 
+inventario.agregar_inventario(libreriaClases.libro)
+inventario.agregar_inventario(libreriaClases.libro2)
+inventario.agregar_inventario(libreriaClases.libro3)
+inventario.agregar_inventario(libreriaClases.libro4)
+inventario.agregar_inventario(libreriaClases.libro5)
+inventario.agregar_inventario(libreriaClases.libro6)
 
-#TO DO
-#interfaz grafica para el programa
-#vincular con base de datos 
-
-class Producto:
-    def __init__(self,nombre,codigo,precio,cantidad):
-        self.nombre = nombre
-        self.codigo = codigo
-        self.precio = precio
-        self.cantidad = cantidad
-
-class Libro(Producto):
-    def __init__(self,nombre,codigo,precio,cantidad,autor,genero,anio,num_paginas):
-        super().__init__(nombre,codigo,precio,cantidad)
-        self.autor = autor
-        self.genero = genero
-        self.anio = anio
-        self.num_paginas = num_paginas
-
-    def __str__(self):
-        return f"{self.nombre} {self.precio}"
-
-class Inventario:
+class Mi_Ventana(QMainWindow):
     def __init__(self):
-        self.lista_inventario= []
+        super().__init__()
+        uic.loadUi('ventanaPrincipal.ui',self)
+        
+        self.tableWidget.setColumnWidth(0, 156)
+        self.tableWidget.setColumnWidth(1, 356)
+        self.tableWidget.setColumnWidth(2, 200)
+        self.tableWidget.setColumnWidth(3, 95)
+        self.tableWidget.setColumnWidth(4, 95)
+        
+        Caja01.crear_venta()
+        self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
+        self.lcdNumber.setDigitCount(8)  # Para mostrar una hora en formato HH:MM:SS
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.actualizar_hora)
+        self.timer.start(1000)  # Actualizar cada segundo (1000 ms)
 
-    def agregar_inventario(self,producto):
-        self.lista_inventario.append(producto)
-class Venta:
-    def __init__(self):
-        self.articulos = []
-        self.total = 0
+    def actualizar_hora(self):
+        # Obtener la hora actual
+        hora_actual = QTime.currentTime()
+
+        # Mostrar la hora actual en el QLCDNumber
+        self.lcdNumber.display(hora_actual.toString("hh:mm:ss"))
     
-    def agregar_venta(self,codigo,inventario):
-        for producto in inventario:
-            if producto.codigo == codigo:
-                self.articulos.append(producto)
-                producto.cantidad -=1
+    def agregar_producto_codigo(self):
+        indice = Caja01.num_ventas
+        
+        unidades = self.spinBox.value()
+        codigo = int(self.codigo_barras.text())
+        if unidades > 0:
+            try:
+                producto = Caja01.ventas[indice].agregar_venta(unidades,codigo,inventario)
+                fila = self.tableWidget.rowCount()
+                self.tableWidget.setRowCount(fila + 1)
+                self.tableWidget.setItem(fila, 0, QTableWidgetItem(str(producto.codigo)))
+                self.tableWidget.setItem(fila, 1, QTableWidgetItem(producto.nombre))
+                self.tableWidget.setItem(fila, 2, QTableWidgetItem(str(producto.precio)))
+                self.tableWidget.setItem(fila, 3, QTableWidgetItem(str(unidades)))
+                self.tableWidget.setItem(fila, 4, QTableWidgetItem(str(unidades*producto.precio)))
+                self.tableWidget.setItem(fila, 4, QTableWidgetItem(str(unidades*producto.precio)))
+                total =Caja01.ventas[indice].calcular_total()
+                self.total.setText(str(total))
+            except AttributeError:
+                print("No existe un producto con ese codigo")
 
-    def remover(self,art):
-        self.articulos.remove(art)
-        self.total -= art.precio
-        art.cantidad += 1
-    
-    def __str__(self):
-        nombres = ""
-        for libros in self.articulos:
-            nombres += libros.nombre + ", "
-        return f"Articulos : {nombres} total: {self.total}"
+        
 
+app = QApplication([])
 
+ventana = Mi_Ventana()
+ventana.show()
 
-class Caja:
-    def __init__(self,turno,vendedor):
-        self.turno =  turno
-        self.vendedor =  vendedor
-        self.num_ventas = 0
-        self.ventas =  []
-        self.caja =  0
-
-    def vender(self,venta):
-        self.num_ventas += 1
-        self.caja += venta.total
-        self.ventas.append(venta)
-
-    def reporte(self):
-        for venta in self.ventas:
-            print(venta)
-
-
-
-libro = Libro('Harry potter 1',83123213,2,100,'jk','ficcion',2020,200)
-
-libro2 = Libro('Harry potter 2',83123213,2,100,'jk','ficcion',2020,200)
-
-libro3 = Libro('Harry potter 3',83123213,2,100,'jk','ficcion',2020,200)
-
-libro4 = Libro('Harry potter 4',83123213,2,100,'jk','ficcion',2020,200)
-
-libro5 = Libro('Harry potter 5',83123213,2,100,'jk','ficcion',2020,200)
-
-libro6 = Libro('Morro',83123213,2,100,'el mismo morro','comedia',2020,200)
-
-caja = Caja(0, "matias")
-
-
-print(venta1)
-print(venta2)
+app.exec()

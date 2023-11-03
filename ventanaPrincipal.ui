@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>737</width>
-    <height>600</height>
+    <width>1004</width>
+    <height>873</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,8 +19,8 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>801</width>
-      <height>551</height>
+      <width>991</width>
+      <height>761</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -38,6 +38,9 @@
         <width>45</width>
         <height>27</height>
        </rect>
+      </property>
+      <property name="value">
+       <number>1</number>
       </property>
      </widget>
      <widget class="QLabel" name="label">
@@ -104,18 +107,18 @@
        <rect>
         <x>20</x>
         <y>150</y>
-        <width>651</width>
-        <height>341</height>
+        <width>951</width>
+        <height>571</height>
        </rect>
       </property>
       <column>
        <property name="text">
-        <string>Nombre</string>
+        <string>Codigo</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string>New Column</string>
+        <string>Nombre</string>
        </property>
       </column>
       <column>
@@ -125,14 +128,24 @@
       </column>
       <column>
        <property name="text">
-        <string>SubTotal</string>
+        <string>Unidades</string>
        </property>
       </column>
       <column>
        <property name="text">
-        <string/>
+        <string>SubTotal</string>
        </property>
       </column>
+     </widget>
+     <widget class="QLCDNumber" name="lcdNumber">
+      <property name="geometry">
+       <rect>
+        <x>790</x>
+        <y>0</y>
+        <width>151</width>
+        <height>51</height>
+       </rect>
+      </property>
      </widget>
     </widget>
     <widget class="QWidget" name="tab_2">
@@ -146,14 +159,51 @@
      </attribute>
     </widget>
    </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>770</y>
+      <width>101</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Terminal</family>
+      <pointsize>36</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>Total</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="total">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>770</y>
+      <width>171</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>25</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>737</width>
-     <height>24</height>
+     <width>1004</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
