@@ -25,11 +25,21 @@ class Mi_Ventana(QMainWindow):
         
         Caja01.crear_venta()
         self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
+        ##ventana buscar conectada a el input de nombre
+        self.ventanaBusqueda = VentanaBuscar(self)
+        self.nombre_producto.returnPressed.connect(self.buscar_producto)
+
+
+        #RELOJ
         self.lcdNumber.setDigitCount(8)  # Para mostrar una hora en formato HH:MM:SS
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.actualizar_hora)
         self.timer.start(1000)  # Actualizar cada segundo (1000 ms)
 
+    def buscar_producto(self):
+        texto = self.nombre_producto.text()
+        self.ventanaBusqueda.show()
+        self.ventanaBusqueda.buscar.setText(texto)
     def actualizar_hora(self):
         # Obtener la hora actual
         hora_actual = QTime.currentTime()
@@ -39,7 +49,6 @@ class Mi_Ventana(QMainWindow):
     
     def agregar_producto_codigo(self):
         indice = Caja01.num_ventas
-        
         unidades = self.spinBox.value()
         codigo = int(self.codigo_barras.text())
         if unidades > 0:
@@ -52,13 +61,43 @@ class Mi_Ventana(QMainWindow):
                 self.tableWidget.setItem(fila, 2, QTableWidgetItem(str(producto.precio)))
                 self.tableWidget.setItem(fila, 3, QTableWidgetItem(str(unidades)))
                 self.tableWidget.setItem(fila, 4, QTableWidgetItem(str(unidades*producto.precio)))
-                self.tableWidget.setItem(fila, 4, QTableWidgetItem(str(unidades*producto.precio)))
                 total =Caja01.ventas[indice].calcular_total()
                 self.total.setText(str(total))
             except AttributeError:
                 print("No existe un producto con ese codigo")
 
-        
+class VentanaBuscar(QMainWindow):
+    def __init__(self,padre):
+        super().__init__()
+        uic.loadUi('ventanaBuscar.ui',self)
+        self.padre = padre
+        self.lista_aux = []
+        self.tablaBuscar.setColumnWidth(0, 156)
+        self.tablaBuscar.setColumnWidth(1, 500)
+        self.tablaBuscar.setColumnWidth(2, 156)
+
+        self.buscar.textChanged.connect(self.filtrar)
+        self.tablaBuscar.itemActivated.connect(self.elegir_producto)
+
+    def elegir_producto(self):
+        fila = self.tablaBuscar.currentRow()
+        codigo = self.tablaBuscar.item(fila,0).text()
+        self.padre.ventanaBusqueda.close()
+        self.padre.codigo_barras.setText(codigo)
+        self.padre.agregar_producto_codigo()
+    def filtrar(self):
+        self.tablaBuscar.clearContents()
+        fila = 0
+        self.tablaBuscar.setRowCount(fila)
+        for item in inventario.lista_inventario:
+            if self.buscar.text().lower() in item.nombre.lower():
+                fila = self.tablaBuscar.rowCount()
+                self.tablaBuscar.setRowCount(fila + 1)
+                self.tablaBuscar.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
+                self.tablaBuscar.setItem(fila, 1, QTableWidgetItem(item.nombre))
+                self.tablaBuscar.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
+
+
 
 app = QApplication([])
 

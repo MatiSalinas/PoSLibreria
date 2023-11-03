@@ -40,7 +40,6 @@ class Venta:
                 for i in range(cantidad):
                     self.articulos.append(producto)
                     producto.cantidad -=1
-                    print('agregado')
                 return producto
         
 
@@ -49,7 +48,7 @@ class Venta:
             self.articulos.remove(art)
             art.cantidad += 1
     def calcular_total(self):
-        print(self.articulos)
+        self.total = 0
         for elemento in self.articulos:
             self.total += elemento.precio
         return self.total
