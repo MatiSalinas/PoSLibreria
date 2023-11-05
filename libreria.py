@@ -1,10 +1,12 @@
 import libreriaClases
-from PyQt6 import uic
+from PyQt6 import uic, QtGui, QtCore
 from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem
 from PyQt6.QtCore import QTime,QTimer
+
+
+#Todo, crear ventana que inicialice la caja y el inventario
 Caja01= libreriaClases.Caja(1,'Matias')
 inventario = libreriaClases.Inventario()
-
 inventario.agregar_inventario(libreriaClases.libro)
 inventario.agregar_inventario(libreriaClases.libro2)
 inventario.agregar_inventario(libreriaClases.libro3)
@@ -17,17 +19,28 @@ class Mi_Ventana(QMainWindow):
         super().__init__()
         uic.loadUi('ventanaPrincipal.ui',self)
         
-        self.tableWidget.setColumnWidth(0, 156)
-        self.tableWidget.setColumnWidth(1, 356)
-        self.tableWidget.setColumnWidth(2, 200)
-        self.tableWidget.setColumnWidth(3, 95)
-        self.tableWidget.setColumnWidth(4, 95)
-        
-        Caja01.crear_venta()
+        #Acomodamos las columnas de la tabla para que esten bien espaciadas
+        tabla_ancho = self.tableWidget.width()
+        print(tabla_ancho)
+        self.tableWidget.setColumnWidth(0, int(tabla_ancho*(1/4)))
+        self.tableWidget.setColumnWidth(1, int(tabla_ancho*(2/5)))
+        self.tableWidget.setColumnWidth(2, int(tabla_ancho*(1.85/17)))
+        self.tableWidget.setColumnWidth(3, int(tabla_ancho*(2/17)))
+        self.tableWidget.setColumnWidth(4, int(tabla_ancho*(2/16)))
+
+        Caja01.crear_venta()#Provisorio para generar la venta actual
+
         self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
+
+        #ponemos la imagen de lupa como el icono del boton
+        self.lupa.setIcon(QtGui.QIcon('lupo.png'))
+        self.lupa.setIconSize(QtCore.QSize(self.lupa.width(),self.lupa.height()))
+
+
         ##ventana buscar conectada a el input de nombre
         self.ventanaBusqueda = VentanaBuscar(self)
         self.nombre_producto.returnPressed.connect(self.buscar_producto)
+        self.lupa.clicked.connect(self.buscar_producto)
 
 
         #RELOJ

@@ -11,10 +11,25 @@ class Producto:
         self.codigo = codigo
         self.precio = precio
         self.cantidad = cantidad
+    def editar(self,nombre,codigo,precio,cantidad):
+        self.nombre = nombre
+        self.codigo = codigo
+        self.precio = precio
+        self.cantidad = cantidad
 
 class Libro(Producto):
     def __init__(self,nombre,codigo,precio,cantidad,autor,genero,anio,num_paginas):
         super().__init__(nombre,codigo,precio,cantidad)
+        self.autor = autor
+        self.genero = genero
+        self.anio = anio
+        self.num_paginas = num_paginas
+
+    def editar(self,nombre,codigo,precio,cantidad,autor,genero,anio,num_paginas):
+        self.nombre = nombre
+        self.codigo = codigo
+        self.precio = precio
+        self.cantidad = cantidad
         self.autor = autor
         self.genero = genero
         self.anio = anio
@@ -28,7 +43,13 @@ class Inventario:
         self.lista_inventario= []
 
     def agregar_inventario(self,producto):
+        for producto_existente in self.lista_inventario:
+            if producto.codigo == producto_existente.codigo:
+                print('Ya existe un producto con ese nombre')
+                return 0
         self.lista_inventario.append(producto)
+
+
 class Venta:
     def __init__(self):
         self.articulos = []
@@ -95,3 +116,5 @@ libro5 = Libro('Harry potter 5',127,2,100,'jk','ficcion',2020,200)
 libro6 = Libro('Morro',128,2,100,'el mismo morro','comedia',2020,200)
 
 caja = Caja(0, "matias")
+
+

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1004</width>
-    <height>873</height>
+    <height>919</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,11 +20,14 @@
       <x>0</x>
       <y>10</y>
       <width>991</width>
-      <height>831</height>
+      <height>881</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(26, 26, 26)</string>
+    </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -39,6 +42,9 @@
         <height>27</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
+      </property>
       <property name="value">
        <number>1</number>
       </property>
@@ -46,11 +52,14 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>10</x>
+        <x>20</x>
         <y>0</y>
-        <width>71</width>
+        <width>81</width>
         <height>21</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
       </property>
       <property name="text">
        <string>unidades</string>
@@ -59,11 +68,14 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>150</x>
         <y>0</y>
-        <width>66</width>
+        <width>81</width>
         <height>19</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
       </property>
       <property name="text">
        <string>Codigo</string>
@@ -72,11 +84,14 @@
      <widget class="QLineEdit" name="codigo_barras">
       <property name="geometry">
        <rect>
-        <x>110</x>
+        <x>150</x>
         <y>20</y>
         <width>261</width>
         <height>27</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
      </widget>
      <widget class="QLineEdit" name="nombre_producto">
@@ -88,18 +103,8 @@
         <height>27</height>
        </rect>
       </property>
-     </widget>
-     <widget class="QLineEdit" name="precio_producto">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
-      <property name="geometry">
-       <rect>
-        <x>410</x>
-        <y>70</y>
-        <width>131</width>
-        <height>27</height>
-       </rect>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);</string>
       </property>
      </widget>
      <widget class="QTableWidget" name="tableWidget">
@@ -111,6 +116,12 @@
         <height>571</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">font: 87 12pt &quot;Arial Black&quot;;background-color: rgb(53,53,79);color: rgb(56,182,255)</string>
+      </property>
+      <attribute name="verticalHeaderDefaultSectionSize">
+       <number>31</number>
+      </attribute>
       <column>
        <property name="text">
         <string>Codigo</string>
@@ -140,11 +151,15 @@
      <widget class="QLCDNumber" name="lcdNumber">
       <property name="geometry">
        <rect>
-        <x>790</x>
-        <y>0</y>
+        <x>780</x>
+        <y>20</y>
         <width>151</width>
         <height>51</height>
        </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(199, 199, 199);
+color: rgb(56,182,255)</string>
       </property>
      </widget>
      <widget class="QLabel" name="label_3">
@@ -161,6 +176,9 @@
         <family>Terminal</family>
         <pointsize>36</pointsize>
        </font>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: rgb(56,182,255)</string>
       </property>
       <property name="text">
        <string>Total</string>
@@ -180,6 +198,45 @@
         <pointsize>25</pointsize>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(255, 255, 255);
+text-align:center;</string>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_8">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>111</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+      </property>
+      <property name="text">
+       <string>Descripcion</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="lupa">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>60</y>
+        <width>41</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:snow;</string>
+      </property>
       <property name="text">
        <string/>
       </property>
@@ -198,12 +255,19 @@
         <height>551</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(53,53,79);</string>
+      </property>
       <property name="title">
        <string/>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="6" column="2">
         <widget class="QPushButton" name="boton_editar">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(199, 199, 199);
+color: rgb(56,182,255)</string>
+         </property>
          <property name="text">
           <string>Editar Libro</string>
          </property>
@@ -211,23 +275,33 @@
        </item>
        <item row="8" column="2">
         <widget class="QPushButton" name="boton_cancelar">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(199, 199, 199);
+color: rgb(56,182,255)</string>
+         </property>
          <property name="text">
           <string>Cancelar</string>
          </property>
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QLineEdit" name="ingreso_codigo"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Codigo:</string>
+        <widget class="QLineEdit" name="ingreso_codigo">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_5">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+         </property>
          <property name="text">
           <string>Nombre:</string>
          </property>
@@ -235,6 +309,11 @@
        </item>
        <item row="0" column="0" colspan="2">
         <widget class="QRadioButton" name="rb_agregar">
+         <property name="styleSheet">
+          <string notr="true">font: 87 12pt &quot;Arial Black&quot;;
+color: rgb(56,182,255)
+</string>
+         </property>
          <property name="text">
           <string>Agregar Libro</string>
          </property>
@@ -242,38 +321,75 @@
        </item>
        <item row="0" column="2" colspan="2">
         <widget class="QRadioButton" name="rb_editar">
+         <property name="styleSheet">
+          <string notr="true">font: 87 12pt &quot;Arial Black&quot;;
+color: rgb(56,182,255)</string>
+         </property>
          <property name="text">
           <string>Editar Libro</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="2">
-        <widget class="QLineEdit" name="ingreso_nombre"/>
-       </item>
        <item row="3" column="0">
         <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+         </property>
          <property name="text">
           <string>Precio:</string>
          </property>
         </widget>
        </item>
        <item row="3" column="2">
-        <widget class="QLineEdit" name="ingreso_precio"/>
+        <widget class="QLineEdit" name="ingreso_precio">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
        </item>
        <item row="4" column="0" colspan="2">
         <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+         </property>
          <property name="text">
           <string>Cantidad de unidades:</string>
          </property>
         </widget>
        </item>
        <item row="4" column="2">
-        <widget class="QLineEdit" name="ingreso_cantidad"/>
+        <widget class="QLineEdit" name="ingreso_cantidad">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
+         </property>
+        </widget>
        </item>
        <item row="5" column="2">
         <widget class="QPushButton" name="boton_agregar">
+         <property name="styleSheet">
+          <string notr="true">
+background-color: rgb(199, 199, 199);
+color: rgb(56,182,255)</string>
+         </property>
          <property name="text">
           <string>Agregar Libro</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="styleSheet">
+          <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+         </property>
+         <property name="text">
+          <string>Codigo:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLineEdit" name="ingreso_nombre">
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(255, 255, 255);</string>
          </property>
         </widget>
        </item>
@@ -284,6 +400,29 @@
      <attribute name="title">
       <string>Inventario</string>
      </attribute>
+     <widget class="QTableWidget" name="tablaLibros">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>50</y>
+        <width>941</width>
+        <height>351</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label_9">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>20</y>
+        <width>101</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Libros</string>
+      </property>
+     </widget>
     </widget>
    </widget>
   </widget>
