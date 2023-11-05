@@ -1,6 +1,6 @@
 import libreriaClases
 from PyQt6 import uic, QtGui, QtCore
-from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem
+from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView
 from PyQt6.QtCore import QTime,QTimer
 
 
@@ -27,8 +27,11 @@ class Mi_Ventana(QMainWindow):
         self.tableWidget.setColumnWidth(2, int(tabla_ancho*(1.85/17)))
         self.tableWidget.setColumnWidth(3, int(tabla_ancho*(2/17)))
         self.tableWidget.setColumnWidth(4, int(tabla_ancho*(2/16)))
+        self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)#Desabilita la edicion de las tablas
 
         Caja01.crear_venta()#Provisorio para generar la venta actual
+        self.cargar_inventarioL()#Cargamos el inventario
+        self.cargar_inventarioP()
 
         self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
 
@@ -79,6 +82,38 @@ class Mi_Ventana(QMainWindow):
             except AttributeError:
                 print("No existe un producto con ese codigo")
 
+    def cargar_inventarioL(self):
+        #Todo conectar a base de datos
+        #Crear todos los objetos
+        #re size las columnas asi ocupan toda la tabla
+        fila = 0
+        self.tablaLibros.setRowCount(fila)
+        for item in inventario.lista_inventario:
+            if type(item) == libreriaClases.Libro:
+                fila = self.tablaLibros.rowCount()
+                self.tablaLibros.setRowCount(fila + 1)
+                self.tablaLibros.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
+                self.tablaLibros.setItem(fila, 1, QTableWidgetItem(item.nombre))
+                self.tablaLibros.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
+                self.tablaLibros.setItem(fila, 3, QTableWidgetItem(str(item.cantidad)))
+                self.tablaLibros.setItem(fila, 4, QTableWidgetItem(str(item.autor)))
+                self.tablaLibros.setItem(fila, 5, QTableWidgetItem(str(item.genero)))
+                self.tablaLibros.setItem(fila, 6, QTableWidgetItem(str(item.anio)))
+                self.tablaLibros.setItem(fila, 7, QTableWidgetItem(str(item.num_paginas)))
+    def cargar_inventarioP(self):
+        #Todo conectar a base de datos
+        #Crear todos los objetos
+        #re size las columnas asi ocupan toda la tabla
+        fila = 0
+        self.tablaProductos.setRowCount(fila)
+        for item in inventario.lista_inventario:
+            if type(item) == libreriaClases.Producto:
+                fila = self.tablaProductos.rowCount()
+                self.tablaProductos.setRowCount(fila + 1)
+                self.tablaProductos.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
+                self.tablaProductos.setItem(fila, 1, QTableWidgetItem(item.nombre))
+                self.tablaProductos.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
+                self.tablaProductos.setItem(fila, 3, QTableWidgetItem(str(item.cantidad)))
 class VentanaBuscar(QMainWindow):
     def __init__(self,padre):
         super().__init__()
@@ -88,7 +123,7 @@ class VentanaBuscar(QMainWindow):
         self.tablaBuscar.setColumnWidth(0, 156)
         self.tablaBuscar.setColumnWidth(1, 500)
         self.tablaBuscar.setColumnWidth(2, 156)
-
+        self.tablaBuscar.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)#Desabilita la edicion de las tablas
         self.buscar.textChanged.connect(self.filtrar)
         self.tablaBuscar.itemActivated.connect(self.elegir_producto)
 
