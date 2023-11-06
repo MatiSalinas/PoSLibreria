@@ -27,7 +27,7 @@
      <string notr="true">background-color: rgb(26, 26, 26)</string>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -239,6 +239,22 @@ text-align:center;</string>
       </property>
       <property name="text">
        <string/>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="botonFinalizarVenta">
+      <property name="geometry">
+       <rect>
+        <x>820</x>
+        <y>790</y>
+        <width>91</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color:rgb(0, 186, 0);</string>
+      </property>
+      <property name="text">
+       <string>Finalizar Venta</string>
       </property>
      </widget>
     </widget>
