@@ -7,12 +7,7 @@ from PyQt6.QtCore import QTime,QTimer
 #Todo, crear ventana que inicialice la caja y el inventario
 Caja01= libreriaClases.Caja(1,'Matias')
 inventario = libreriaClases.Inventario()
-inventario.agregar_inventario(libreriaClases.libro)
-inventario.agregar_inventario(libreriaClases.libro2)
-inventario.agregar_inventario(libreriaClases.libro3)
-inventario.agregar_inventario(libreriaClases.libro4)
-inventario.agregar_inventario(libreriaClases.libro5)
-inventario.agregar_inventario(libreriaClases.libro6)
+inventario.cargar_inventario_desde_bd()
 
 class Mi_Ventana(QMainWindow):
     def __init__(self):

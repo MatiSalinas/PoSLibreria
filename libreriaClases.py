@@ -1,9 +1,8 @@
 #Grupo 19 libreria
 
-
+import sqlite3
 #TO DO
 #interfaz grafica para el programa
-#vincular con base de datos 
 
 class Producto:
     def __init__(self,nombre,codigo,precio,cantidad):
@@ -11,11 +10,19 @@ class Producto:
         self.codigo = codigo
         self.precio = precio
         self.cantidad = cantidad
+        self.conn = sqlite3.connect('libreria.db')
+        self.cursor = self.conn.cursor()
     def editar(self,nombre,codigo,precio,cantidad):
         self.nombre = nombre
         self.codigo = codigo
         self.precio = precio
         self.cantidad = cantidad
+    
+    def insertar_producto(self):
+        self.cursor.execute('''
+        INSERT INTO Producto (nombre, codigo, precio, cantidad)
+        VALUES (?, ?, ?, ?)''', (self.nombre, self.codigo, self.precio, self.cantidad))
+        self.conn.commit()
 
 class Libro(Producto):
     def __init__(self,nombre,codigo,precio,cantidad,autor,genero,anio,num_paginas):
@@ -24,6 +31,8 @@ class Libro(Producto):
         self.genero = genero
         self.anio = anio
         self.num_paginas = num_paginas
+        self.conn = sqlite3.connect('libreria.db')
+        self.cursor = self.conn.cursor()
 
     def editar(self,nombre,codigo,precio,cantidad,autor,genero,anio,num_paginas):
         self.nombre = nombre
@@ -37,10 +46,18 @@ class Libro(Producto):
 
     def __str__(self):
         return f"{self.nombre} {self.precio}"
+    def insertar_libro(self):
+        self.cursor.execute('''
+        INSERT INTO Libro (nombre, codigo, precio, autor, genero, anio, num_paginas)
+        VALUES (?, ?, ?, ?, ?, ?, ?)''', (self.nombre, self.codigo, self.precio, self.autor, self.genero, self.anio, self.num_paginas))
+        self.conn.commit()
+        print('completado')
 
 class Inventario:
     def __init__(self):
         self.lista_inventario= []
+        self.conn = sqlite3.connect('libreria.db')
+        self.cursor = self.conn.cursor()
 
     def agregar_inventario(self,producto):
         for producto_existente in self.lista_inventario:
@@ -49,11 +66,42 @@ class Inventario:
                 return 0
         self.lista_inventario.append(producto)
 
+    
+    def cargar_inventario_desde_bd(self):
+        # Recupera los productos de la tabla Producto
+        self.cursor.execute('SELECT nombre, codigo, precio, cantidad FROM Producto')
+        productos = self.cursor.fetchall()
+        
+        # Recupera los libros de la tabla Libro
+        self.cursor.execute('SELECT nombre, codigo, precio, autor, genero, anio, num_paginas FROM Libro')
+        libros = self.cursor.fetchall()
+        
+        # Crea objetos de productos y libros y los agrega al inventario
+        for producto_data in productos:
+            nombre, codigo, precio, cantidad = producto_data
+            producto = Producto(nombre, codigo, precio, cantidad)
+            self.lista_inventario.append(producto)
+        
+        for libro_data in libros:
+            nombre, codigo, precio, autor, genero, anio, num_paginas = libro_data
+            libro = Libro(nombre, codigo, precio, 1, autor, genero, anio, num_paginas)  # Suponemos que la cantidad siempre es 1
+            self.lista_inventario.append(libro)
+
+    def eliminar_libro(self, codigo):
+        self.cursor.execute('DELETE FROM Libro WHERE codigo = ?', (codigo,))
+        self.conn.commit()
+    
+    def eliminar_producto(self, codigo):
+        self.cursor.execute('DELETE FROM Producto WHERE codigo = ?', (codigo,))
+        self.conn.commit()
 
 class Venta:
     def __init__(self):
         self.articulos = []
         self.total = 0
+        self.turno_asociado = 0
+        self.conn = sqlite3.connect('libreria.db')
+        self.cursor = self.conn.cursor()
     
     def agregar_venta(self,cantidad,codigo,inventario):
         for producto in inventario.lista_inventario:
@@ -78,6 +126,13 @@ class Venta:
         for libros in self.articulos:
             nombres += libros.nombre + ", "
         return f"Articulos : {nombres} total: {self.total}"
+    
+    def insertar_venta(self):
+        for articulo in self.articulos:
+            self.cursor.execute('''
+            INSERT INTO Ventas (codigo, nombre, turno_id)
+            VALUES (?, ?, ?, ?, ?)''', (articulo.codigo, articulo.nombre, self.turno_id))
+            self.conn.commit()
 
 
 
@@ -88,6 +143,8 @@ class Caja:
         self.num_ventas = 0
         self.ventas =  []
         self.caja =  0
+        self.conn = sqlite3.connect('libreria.db')
+        self.cursor = self.conn.cursor()
 
     def crear_venta(self):
         venta = Venta()
@@ -100,20 +157,16 @@ class Caja:
     def reporte(self):
         for venta in self.ventas:
             print(venta)
+    
+    def insertar_caja(self):
+        self.cursor.execute('''
+        INSERT INTO Caja (turno, vendedor, num_ventas, caja)
+        VALUES (?, ?, ?, ?)''', (self.turno, self.vendedor, self.num_ventas, self.caja))
+        self.conn.commit()
 
 
 
-libro = Libro('Harry potter 1',123,2,100,'jk','ficcion',2020,200)
 
-libro2 = Libro('Harry potter 2',124,2,100,'jk','ficcion',2020,200)
-
-libro3 = Libro('Harry potter 3',125,2,100,'jk','ficcion',2020,200)
-
-libro4 = Libro('Harry potter 4',126,2,100,'jk','ficcion',2020,200)
-
-libro5 = Libro('Harry potter 5',127,2,100,'jk','ficcion',2020,200)
-
-libro6 = Libro('Morro',128,2,100,'el mismo morro','comedia',2020,200)
 
 caja = Caja(0, "matias")
 
