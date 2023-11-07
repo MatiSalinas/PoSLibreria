@@ -1,7 +1,8 @@
 import libreriaClases
 from PyQt6 import uic, QtGui, QtCore
-from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView
+from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView 
 from PyQt6.QtCore import QTime,QTimer
+
 
 
 #Todo, crear ventana que inicialice la caja y el inventario
@@ -29,7 +30,10 @@ class Mi_Ventana(QMainWindow):
         self.cargar_inventarioP()
 
         self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
+        self.botonFinalizarVenta.clicked.connect(self.finalizar_venta)
 
+
+        self.botonCierreCaja.clicked.connect(self.cierre_caja)
         #ponemos la imagen de lupa como el icono del boton
         self.lupa.setIcon(QtGui.QIcon('lupo.png'))
         self.lupa.setIconSize(QtCore.QSize(self.lupa.width(),self.lupa.height()))
@@ -40,12 +44,15 @@ class Mi_Ventana(QMainWindow):
         self.nombre_producto.returnPressed.connect(self.buscar_producto)
         self.lupa.clicked.connect(self.buscar_producto)
 
+        self.ventanaCierre = CierreCaja()
 
         #RELOJ
         self.lcdNumber.setDigitCount(8)  # Para mostrar una hora en formato HH:MM:SS
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.actualizar_hora)
         self.timer.start(1000)  # Actualizar cada segundo (1000 ms)
+    def cierre_caja(self):
+        self.ventanaCierre.show()
 
     def buscar_producto(self):
         texto = self.nombre_producto.text()
@@ -75,11 +82,19 @@ class Mi_Ventana(QMainWindow):
                 total =Caja01.ventas[indice].calcular_total()
                 self.total.setText(str(total))
             except AttributeError:
-                print("No existe un producto con ese codigo")
+                print("No existe un producto con ese codigoaca")
+    def finalizar_venta(self):
+        indice = Caja01.num_ventas
+        venta = Caja01.ventas[indice]
+        venta.turno_asociado = Caja01.turno
+        venta.insertar_venta()
+        Caja01.vender(venta)
+        self.tableWidget.clearContents()
+        self.tableWidget.setRowCount(0)
+        self.total.setText('0')
 
     def cargar_inventarioL(self):
-        #Todo conectar a base de datos
-        #Crear todos los objetos
+        #Todo 
         #re size las columnas asi ocupan toda la tabla
         fila = 0
         self.tablaLibros.setRowCount(fila)
@@ -96,8 +111,7 @@ class Mi_Ventana(QMainWindow):
                 self.tablaLibros.setItem(fila, 6, QTableWidgetItem(str(item.anio)))
                 self.tablaLibros.setItem(fila, 7, QTableWidgetItem(str(item.num_paginas)))
     def cargar_inventarioP(self):
-        #Todo conectar a base de datos
-        #Crear todos los objetos
+        #Todo
         #re size las columnas asi ocupan toda la tabla
         fila = 0
         self.tablaProductos.setRowCount(fila)
@@ -112,7 +126,7 @@ class Mi_Ventana(QMainWindow):
 class VentanaBuscar(QMainWindow):
     def __init__(self,padre):
         super().__init__()
-        uic.loadUi('ventanaBuscar.ui',self)
+        uic.loadUi('ventanabuscar.ui',self)
         self.padre = padre
         self.lista_aux = []
         self.tablaBuscar.setColumnWidth(0, 156)
@@ -139,6 +153,13 @@ class VentanaBuscar(QMainWindow):
                 self.tablaBuscar.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
                 self.tablaBuscar.setItem(fila, 1, QTableWidgetItem(item.nombre))
                 self.tablaBuscar.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
+
+
+class CierreCaja(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('cierre_caja.ui',self)
+
 
 
 

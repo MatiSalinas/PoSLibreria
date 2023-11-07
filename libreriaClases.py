@@ -79,12 +79,12 @@ class Inventario:
         # Crea objetos de productos y libros y los agrega al inventario
         for producto_data in productos:
             nombre, codigo, precio, cantidad = producto_data
-            producto = Producto(nombre, codigo, precio, cantidad)
+            producto = Producto(nombre, int(codigo), precio, cantidad)
             self.lista_inventario.append(producto)
         
         for libro_data in libros:
             nombre, codigo, precio, autor, genero, anio, num_paginas = libro_data
-            libro = Libro(nombre, codigo, precio, 1, autor, genero, anio, num_paginas)  # Suponemos que la cantidad siempre es 1
+            libro = Libro(nombre, int(codigo), precio, 1, autor, genero, anio, num_paginas)  # Suponemos que la cantidad siempre es 1
             self.lista_inventario.append(libro)
 
     def eliminar_libro(self, codigo):
@@ -126,12 +126,12 @@ class Venta:
         for libros in self.articulos:
             nombres += libros.nombre + ", "
         return f"Articulos : {nombres} total: {self.total}"
-    
+
     def insertar_venta(self):
         for articulo in self.articulos:
             self.cursor.execute('''
             INSERT INTO Ventas (codigo, nombre, turno_id)
-            VALUES (?, ?, ?, ?, ?)''', (articulo.codigo, articulo.nombre, self.turno_id))
+            VALUES (?, ?, ?)''', (articulo.codigo, articulo.nombre, self.turno_asociado))
             self.conn.commit()
 
 
@@ -153,6 +153,8 @@ class Caja:
         self.num_ventas += 1
         self.caja += venta.total
         self.ventas.append(venta)
+        ventaNueva = Venta()
+        self.ventas.append(ventaNueva)
 
     def reporte(self):
         for venta in self.ventas:
