@@ -17,6 +17,14 @@ class Producto:
         self.codigo = codigo
         self.precio = precio
         self.cantidad = cantidad
+    def editar_tabla(self, nombre, precio, cantidad):
+        
+        self.cursor.execute('''
+            UPDATE Libro
+            SET nombre = ?, precio = ?, cantidad = ?
+            WHERE codigo = ?
+        ''', (nombre, precio, cantidad, self.codigo))
+        self.conn.commit()
     
     def insertar_producto(self):
         self.cursor.execute('''
@@ -43,13 +51,22 @@ class Libro(Producto):
         self.genero = genero
         self.anio = anio
         self.num_paginas = num_paginas
+    
+    def editar_tabla(self, nombre, precio, cantidad, autor, genero, anio, num_paginas):
+        
+        self.cursor.execute('''
+            UPDATE Libro
+            SET nombre = ?, precio = ?, cantidad = ?, autor = ?, genero = ?, anio = ?, num_paginas = ?
+            WHERE codigo = ?
+        ''', (nombre, precio, cantidad, autor, genero, anio, num_paginas, self.codigo))
+        self.conn.commit()
 
     def __str__(self):
         return f"{self.nombre} {self.precio}"
     def insertar_libro(self):
         self.cursor.execute('''
-        INSERT INTO Libro (nombre, codigo, precio, autor, genero, anio, num_paginas)
-        VALUES (?, ?, ?, ?, ?, ?, ?)''', (self.nombre, self.codigo, self.precio, self.autor, self.genero, self.anio, self.num_paginas))
+        INSERT INTO Libro (nombre, codigo, precio,cantidad, autor, genero, anio, num_paginas)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (self.nombre, self.codigo, self.precio,self.cantidad, self.autor, self.genero, self.anio, self.num_paginas))
         self.conn.commit()
         print('completado')
 
@@ -73,7 +90,7 @@ class Inventario:
         productos = self.cursor.fetchall()
         
         # Recupera los libros de la tabla Libro
-        self.cursor.execute('SELECT nombre, codigo, precio, autor, genero, anio, num_paginas FROM Libro')
+        self.cursor.execute('SELECT nombre, codigo, precio,cantidad, autor, genero, anio, num_paginas FROM Libro')
         libros = self.cursor.fetchall()
         
         # Crea objetos de productos y libros y los agrega al inventario
@@ -81,11 +98,17 @@ class Inventario:
             nombre, codigo, precio, cantidad = producto_data
             producto = Producto(nombre, int(codigo), precio, cantidad)
             self.lista_inventario.append(producto)
+
         
         for libro_data in libros:
-            nombre, codigo, precio, autor, genero, anio, num_paginas = libro_data
-            libro = Libro(nombre, int(codigo), precio, 1, autor, genero, anio, num_paginas)  # Suponemos que la cantidad siempre es 1
+            nombre, codigo, precio,cantidad, autor, genero, anio, num_paginas = libro_data
+            libro = Libro(nombre, int(codigo), precio, int(cantidad), autor, genero, anio, num_paginas) 
             self.lista_inventario.append(libro)
+
+    def __str__(self):
+        for libro in self.lista_inventario:
+            print(libro.codigo)
+            print(type(libro.codigo))
 
     def eliminar_libro(self, codigo):
         self.cursor.execute('DELETE FROM Libro WHERE codigo = ?', (codigo,))
@@ -107,6 +130,7 @@ class Venta:
         for producto in inventario.lista_inventario:
             if producto.codigo == codigo:
                 for i in range(cantidad):
+                    print('agregado')
                     self.articulos.append(producto)
                     producto.cantidad -=1
                 return producto
@@ -116,6 +140,7 @@ class Venta:
         for i in range(unidades):
             self.articulos.remove(art)
             art.cantidad += 1
+
     def calcular_total(self):
         self.total = 0
         for elemento in self.articulos:
@@ -128,6 +153,7 @@ class Venta:
         return f"Articulos : {nombres} total: {self.total}"
 
     def insertar_venta(self):
+        print(self.articulos)
         for articulo in self.articulos:
             self.cursor.execute('''
             INSERT INTO Ventas (codigo, nombre, turno_id)
@@ -145,6 +171,7 @@ class Caja:
         self.caja =  0
         self.conn = sqlite3.connect('libreria.db')
         self.cursor = self.conn.cursor()
+        self.estado = False
 
     def crear_venta(self):
         venta = Venta()
@@ -159,6 +186,17 @@ class Caja:
     def reporte(self):
         for venta in self.ventas:
             print(venta)
+    def abrir_caja(self,vendedor):
+        self.estado = True
+        self.turno +=1
+        self.caja = 0
+        self.vendedor = vendedor
+        self.num_ventas =0
+        self.ventas.clear()
+    
+    def cerrar_caja(self):
+        self.estado = False
+
     
     def insertar_caja(self):
         self.cursor.execute('''
