@@ -111,12 +111,19 @@ class Inventario:
             print(type(libro.codigo))
 
     def eliminar_libro(self, codigo):
-        self.cursor.execute('DELETE FROM Libro WHERE codigo = ?', (codigo,))
-        self.conn.commit()
+        for producto_existente in self.lista_inventario:
+            if int(codigo) == producto_existente.codigo:
+                print('entre')
+                self.lista_inventario.remove(producto_existente)
+                self.cursor.execute('DELETE FROM Libro WHERE codigo = ?', (codigo,))
+                self.conn.commit()
     
     def eliminar_producto(self, codigo):
-        self.cursor.execute('DELETE FROM Producto WHERE codigo = ?', (codigo,))
-        self.conn.commit()
+        for producto_existente in self.lista_inventario:
+            if int(codigo) == producto_existente.codigo:
+                self.lista_inventario.remove(producto_existente)
+                self.cursor.execute('DELETE FROM Producto WHERE codigo = ?', (codigo,))
+                self.conn.commit()
 
 class Venta:
     def __init__(self):

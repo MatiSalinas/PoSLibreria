@@ -61,7 +61,23 @@ class Mi_Ventana(QMainWindow):
         self.rb_entradaProducto.toggled.connect(self.ComprasRadio)
         self.ingreso_codigo.returnPressed.connect(self.cargar_compras_codigo)
         self.botonGuardarCompras.clicked.connect(self.guardar_compra)
+
+        #Inventario
+        self.InventarioLBorrar.clicked.connect(self.BorrarLInventario)
+        self.InventarioPBorrar.clicked.connect(self.BorrarPInventario)
+
+    def BorrarLInventario(self):
+        fila = self.tablaLibros.currentRow()
+        codigo = self.tablaLibros.item(fila,0).text()
+        inventario.eliminar_libro(codigo)
+        self.cargar_inventarioL()
+    def BorrarPInventario(self):
+        fila = self.tablaProductos.currentRow()
+        codigo = self.tablaProductos.item(fila,0).text()
+        inventario.eliminar_producto(codigo)
+        self.cargar_inventarioP()
     def ComprasRadio(self):
+        #Desactivamos o activamos los campos necesarios para cada opcion
         if self.rb_crearLibro.isChecked():
             self.ingreso_nombre.setEnabled(True)
             self.ingreso_precio.setEnabled(True)
