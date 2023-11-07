@@ -22,6 +22,7 @@ cursor.execute('''
         nombre TEXT NOT NULL,
         codigo TEXT UNIQUE NOT NULL,
         precio REAL NOT NULL,
+        cantidad INTEGER NOT NULL,
         autor TEXT NOT NULL,
         genero TEXT NOT NULL,
         anio INTEGER NOT NULL,
