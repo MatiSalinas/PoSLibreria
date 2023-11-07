@@ -14,17 +14,17 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color: rgb(0, 0, 127);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
      <widget class="QTabWidget" name="principal">
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: rgb(0, 0, 0);</string>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <property name="tabsClosable">
        <bool>false</bool>
@@ -33,7 +33,7 @@
        <attribute name="title">
         <string>Ventas</string>
        </attribute>
-       <layout class="QGridLayout" name="gridLayout_3" rowstretch="0,0,0,0,0,0,0,0" columnstretch="0,0,16,0,0,0,0,0">
+       <layout class="QGridLayout" name="gridLayout_3">
         <item row="3" column="0" colspan="8">
          <widget class="QTableWidget" name="tableWidget">
           <property name="sizePolicy">
@@ -43,7 +43,7 @@
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">font: 87 12pt &quot;Arial Black&quot;;background-color: rgb(53,53,79);color: rgb(56,182,255)</string>
           </property>
           <column>
            <property name="text">
@@ -96,23 +96,48 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="font">
-           <font>
-            <family>Terminal</family>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
           <property name="autoFillBackground">
            <bool>false</bool>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
           </property>
           <property name="text">
            <string>Codigo</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignHCenter|Qt::AlignTop</set>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="6" colspan="2">
+         <widget class="QLabel" name="total">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+            <horstretch>5</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>25</pointsize>
+           </font>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(255, 255, 255);</string>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QPushButton" name="botonCierreCaja">
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(220, 0, 0);</string>
+          </property>
+          <property name="text">
+           <string>Cierre de Caja</string>
           </property>
          </widget>
         </item>
@@ -151,13 +176,8 @@
         </item>
         <item row="0" column="0">
          <widget class="QLabel" name="label">
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
           </property>
           <property name="text">
            <string>unidades</string>
@@ -167,13 +187,24 @@
         <item row="0" column="6" rowspan="2" colspan="2">
          <widget class="QLCDNumber" name="lcdNumber">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
+           <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">background-color: rgb(199, 199, 199);
+color: rgb(56,182,255)</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QPushButton" name="botonEliminarArticulo">
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(255, 85, 0)</string>
+          </property>
+          <property name="text">
+           <string>Eliminar Articulo</string>
           </property>
          </widget>
         </item>
@@ -184,7 +215,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
+        <item row="1" column="4" rowspan="2">
          <widget class="QPushButton" name="lupa">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -192,28 +223,12 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
-          <property name="baseSize">
-           <size>
-            <width>15</width>
-            <height>15</height>
-           </size>
-          </property>
           <property name="text">
-           <string/>
+           <string>PushButton</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
-         <widget class="QPushButton" name="botonEliminarArticulo">
-          <property name="styleSheet">
-           <string notr="true">background-color:rgb(255, 85, 0)</string>
-          </property>
-          <property name="text">
-           <string>Eliminar Articulo</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="5">
+        <item row="7" column="4">
          <widget class="QLabel" name="label_3">
           <property name="font">
            <font>
@@ -222,47 +237,10 @@
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">color: rgb(56,182,255)</string>
           </property>
           <property name="text">
            <string>Total</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="7">
-         <widget class="QLabel" name="total">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Expanding" vsizetype="Maximum">
-            <horstretch>5</horstretch>
-            <verstretch>1</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="sizeIncrement">
-           <size>
-            <width>50</width>
-            <height>15</height>
-           </size>
-          </property>
-          <property name="baseSize">
-           <size>
-            <width>70</width>
-            <height>15</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>-1</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color:rgb(248, 248, 248);
-color:rgb(8, 8, 8);
- font-size: 28px;
-padding:15px;
-border-radius: 12px;</string>
-          </property>
-          <property name="text">
-           <string/>
           </property>
          </widget>
         </item>
@@ -276,197 +254,31 @@ border-radius: 12px;</string>
         <item row="0" column="0">
          <widget class="QGroupBox" name="groupBox">
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">background-color: rgb(53,53,79);</string>
           </property>
           <property name="title">
            <string/>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
-           <item row="8" column="0">
-            <widget class="QLabel" name="label_13">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Año:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="2">
-            <widget class="QLineEdit" name="ingreso_paginas">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0">
-            <widget class="QLabel" name="label_12">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>autor:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QRadioButton" name="rb_entradaLibro">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Entrada Libro</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_8">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Genero:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="2">
-            <widget class="QLineEdit" name="ingreso_precio">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="2" colspan="2">
-            <widget class="QRadioButton" name="rb_CrearProducto">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Crear Producto</string>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="2">
-            <widget class="QLineEdit" name="ingreso_autor">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
            <item row="5" column="2">
             <widget class="QLineEdit" name="ingreso_cantidad">
              <property name="enabled">
               <bool>true</bool>
              </property>
              <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0" colspan="2">
-            <widget class="QLabel" name="label_7">
-             <property name="enabled">
-              <bool>true</bool>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Cantidad de unidades:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="2">
-            <widget class="QLineEdit" name="ingreso_anio">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="2">
-            <widget class="QRadioButton" name="rb_entradaProducto">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Entrada Producto</string>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="2">
-            <widget class="QLineEdit" name="ingreso_genero">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="2">
-            <widget class="QLineEdit" name="ingreso_codigo">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Nombre:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_6">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Precio:</string>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_11">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>paginas:</string>
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
              </property>
             </widget>
            </item>
            <item row="0" column="0" colspan="2">
             <widget class="QRadioButton" name="rb_crearLibro">
              <property name="styleSheet">
-              <string notr="true"/>
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;
+color: rgb(56,182,255)
+</string>
              </property>
              <property name="text">
               <string>Crear Libro</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="2">
-            <widget class="QLineEdit" name="ingreso_nombre">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_4">
-             <property name="styleSheet">
-              <string notr="true"/>
-             </property>
-             <property name="text">
-              <string>Codigo:</string>
              </property>
             </widget>
            </item>
@@ -481,6 +293,177 @@ color:snow;</string>
              </property>
             </widget>
            </item>
+           <item row="4" column="2">
+            <widget class="QLineEdit" name="ingreso_precio">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2">
+            <widget class="QLineEdit" name="ingreso_paginas">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
+            <widget class="QLabel" name="label_12">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>autor:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_4">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Codigo:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="2">
+            <widget class="QLineEdit" name="ingreso_autor">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Precio:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="5" column="0" colspan="2">
+            <widget class="QLabel" name="label_7">
+             <property name="enabled">
+              <bool>true</bool>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Cantidad de unidades:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="0">
+            <widget class="QLabel" name="label_11">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>paginas:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="2">
+            <widget class="QLineEdit" name="ingreso_genero">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="2">
+            <widget class="QLineEdit" name="ingreso_nombre">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="2">
+            <widget class="QRadioButton" name="rb_entradaProducto">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;
+color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Entrada Producto</string>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Genero:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="2" colspan="2">
+            <widget class="QRadioButton" name="rb_CrearProducto">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;
+color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Crear Producto</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QRadioButton" name="rb_entradaLibro">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;
+color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Entrada Libro</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="2">
+            <widget class="QLineEdit" name="ingreso_codigo">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Nombre:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="0">
+            <widget class="QLabel" name="label_13">
+             <property name="styleSheet">
+              <string notr="true">font: 87 12pt &quot;Arial Black&quot;;color: rgb(56,182,255)</string>
+             </property>
+             <property name="text">
+              <string>Año:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="2">
+            <widget class="QLineEdit" name="ingreso_anio">
+             <property name="styleSheet">
+              <string notr="true">background-color: rgb(255, 255, 255);</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </widget>
         </item>
@@ -491,10 +474,37 @@ color:snow;</string>
         <string>Inventario</string>
        </attribute>
        <layout class="QGridLayout" name="gridLayout_5">
+        <item row="2" column="0">
+         <widget class="QPushButton" name="InventarioLBorrar">
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(240, 240, 240);</string>
+          </property>
+          <property name="text">
+           <string>Borrar</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Libros</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QPushButton" name="InventarioLEditar">
+          <property name="styleSheet">
+           <string notr="true">background-color:rgb(240, 240, 240);</string>
+          </property>
+          <property name="text">
+           <string>Editar</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="0" colspan="3">
          <widget class="QTableWidget" name="tablaLibros">
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">background-color:rgb(170, 170, 255);</string>
           </property>
           <column>
            <property name="text">
@@ -538,37 +548,17 @@ color:snow;</string>
           </column>
          </widget>
         </item>
-        <item row="5" column="0">
-         <widget class="QPushButton" name="InventarioPBorrar">
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
+        <item row="3" column="0">
+         <widget class="QLabel" name="label_10">
           <property name="text">
-           <string>Borrar</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QPushButton" name="InventarioLBorrar">
-          <property name="styleSheet">
-           <string notr="true"/>
-          </property>
-          <property name="text">
-           <string>Borrar</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_9">
-          <property name="text">
-           <string>Libros</string>
+           <string>Productos</string>
           </property>
          </widget>
         </item>
         <item row="4" column="0" colspan="3">
          <widget class="QTableWidget" name="tablaProductos">
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">background-color:rgb(170, 170, 255);</string>
           </property>
           <column>
            <property name="text">
@@ -592,27 +582,20 @@ color:snow;</string>
           </column>
          </widget>
         </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_10">
-          <property name="text">
-           <string>Productos</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="InventarioLEditar">
+        <item row="5" column="0">
+         <widget class="QPushButton" name="InventarioPBorrar">
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">background-color:rgb(240, 240, 240);</string>
           </property>
           <property name="text">
-           <string>Editar</string>
+           <string>Borrar</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="2">
+        <item row="5" column="1">
          <widget class="QPushButton" name="InventarioPEditar">
           <property name="styleSheet">
-           <string notr="true"/>
+           <string notr="true">background-color:rgb(240, 240, 240);</string>
           </property>
           <property name="text">
            <string>Editar</string>
@@ -660,9 +643,9 @@ color:snow;</string>
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -732,18 +715,18 @@ color:snow;</string>
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -806,9 +789,9 @@ color:snow;</string>
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -878,18 +861,18 @@ color:snow;</string>
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -952,9 +935,9 @@ color:snow;</string>
       <colorrole role="Button">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -1024,18 +1007,18 @@ color:snow;</string>
       <colorrole role="Base">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
       <colorrole role="Window">
        <brush brushstyle="SolidPattern">
         <color alpha="255">
-         <red>0</red>
-         <green>0</green>
-         <blue>127</blue>
+         <red>255</red>
+         <green>255</green>
+         <blue>255</blue>
         </color>
        </brush>
       </colorrole>
@@ -1100,7 +1083,7 @@ color:snow;</string>
     <property name="title">
      <string>Cierre Turno</string>
     </property>
-    <addaction name="botonCierreCaja"/>
+    <addaction name="actionCerrar_Turno"/>
     <addaction name="actionRendicion_de_caja"/>
    </widget>
    <addaction name="menuAoertyra_Tyrbo"/>
@@ -1111,7 +1094,7 @@ color:snow;</string>
     <string>Abrir Turno </string>
    </property>
   </action>
-  <action name="botonCierreCaja">
+  <action name="actionCerrar_Turno">
    <property name="text">
     <string>Cerrar Turno</string>
    </property>

@@ -14,7 +14,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: rgb(0, 0, 0);</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QLabel" name="label">
@@ -35,8 +35,7 @@
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true">font: 87 12pt &quot;Arial Black&quot;;
-color: rgb(56,182,255)</string>
+     <string notr="true"/>
     </property>
     <property name="text">
      <string>Descripcion</string>
@@ -52,7 +51,7 @@ color: rgb(56,182,255)</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(53,53,79);</string>
+     <string notr="true"/>
     </property>
     <column>
      <property name="text">
@@ -80,7 +79,7 @@ color: rgb(56,182,255)</string>
      </rect>
     </property>
     <property name="styleSheet">
-     <string notr="true">background-color: rgb(255, 255, 255);</string>
+     <string notr="true"/>
     </property>
    </widget>
   </widget>

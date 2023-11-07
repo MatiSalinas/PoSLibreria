@@ -2,7 +2,7 @@ import libreriaClases
 from PyQt6 import uic, QtGui, QtCore
 from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView 
 from PyQt6.QtCore import QTime,QTimer
-
+import sys
 
 
 #Todo, crear ventana que inicialice la caja y el inventario
@@ -34,7 +34,7 @@ class Mi_Ventana(QMainWindow):
         self.botonAnular.clicked.connect(self.anular_venta)
 
 
-        self.botonCierreCaja.clicked.connect(self.cierre_caja)
+        self.botonCierreCaja.triggered.connect(self.cierre_caja)
         #ponemos la imagen de lupa como el icono del boton
         self.lupa.setIcon(QtGui.QIcon('lupo.png'))
         self.lupa.setIconSize(QtCore.QSize(self.lupa.width(),self.lupa.height()))
@@ -194,6 +194,9 @@ class Mi_Ventana(QMainWindow):
         self.ventanaCierre.show()
 
     def buscar_producto(self):
+        with open('stylesheet.qss','r') as file:
+            ventana.ventanaBusqueda.setStyleSheet(file.read())
+
         texto = self.nombre_producto.text()
         self.ventanaBusqueda.show()
         self.ventanaBusqueda.buscar.setText(texto)
@@ -222,7 +225,6 @@ class Mi_Ventana(QMainWindow):
                 self.total.setText(str(total))
             except AttributeError:
                 print("No existe un producto con ese codigoaca")
-                print(inventario)
     def remover_articulo(self):
         pass
     def anular_venta(self):
@@ -288,6 +290,7 @@ class VentanaBuscar(QMainWindow):
         self.buscar.textChanged.connect(self.filtrar)
         self.tablaBuscar.itemActivated.connect(self.elegir_producto)
 
+
     def elegir_producto(self):
         fila = self.tablaBuscar.currentRow()
         codigo = self.tablaBuscar.item(fila,0).text()
@@ -307,6 +310,7 @@ class VentanaBuscar(QMainWindow):
                 self.tablaBuscar.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
 
 
+
 class CierreCaja(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -318,6 +322,9 @@ class CierreCaja(QMainWindow):
 app = QApplication([])
 
 ventana = Mi_Ventana()
+with open('stylesheet.qss','r') as file:
+    ventana.setStyleSheet(file.read())
+    ventana.ventanaBusqueda.setStyleSheet(file.read())
 ventana.show()
 
 app.exec()
