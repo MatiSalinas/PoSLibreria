@@ -12,15 +12,14 @@ class Producto:
         self.cantidad = cantidad
         self.conn = sqlite3.connect('libreria.db')
         self.cursor = self.conn.cursor()
-    def editar(self,nombre,codigo,precio,cantidad):
+    def editar(self,nombre,precio,cantidad):
         self.nombre = nombre
-        self.codigo = codigo
         self.precio = precio
         self.cantidad = cantidad
     def editar_tabla(self, nombre, precio, cantidad):
         
         self.cursor.execute('''
-            UPDATE Libro
+            UPDATE Producto
             SET nombre = ?, precio = ?, cantidad = ?
             WHERE codigo = ?
         ''', (nombre, precio, cantidad, self.codigo))
@@ -42,9 +41,8 @@ class Libro(Producto):
         self.conn = sqlite3.connect('libreria.db')
         self.cursor = self.conn.cursor()
 
-    def editar(self,nombre,codigo,precio,cantidad,autor,genero,anio,num_paginas):
+    def editar(self,nombre,precio,cantidad,autor,genero,anio,num_paginas):
         self.nombre = nombre
-        self.codigo = codigo
         self.precio = precio
         self.cantidad = cantidad
         self.autor = autor
@@ -131,7 +129,7 @@ class Venta:
         self.total = 0
         self.turno_asociado = 0
         self.conn = sqlite3.connect('libreria.db')
-        self.cursor = self.conn.cursor()
+        self.cursor = self. conn.cursor()
     
     def agregar_venta(self,cantidad,codigo,inventario):
         for producto in inventario.lista_inventario:

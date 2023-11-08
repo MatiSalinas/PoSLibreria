@@ -1,6 +1,6 @@
 import libreriaClases
 from PyQt6 import uic, QtGui, QtCore
-from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView 
+from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView , QDialog
 from PyQt6.QtCore import QTime,QTimer
 import sys
 
@@ -65,12 +65,73 @@ class Mi_Ventana(QMainWindow):
         #Inventario
         self.InventarioLBorrar.clicked.connect(self.BorrarLInventario)
         self.InventarioPBorrar.clicked.connect(self.BorrarPInventario)
+        self.InventarioLEditar.clicked.connect(self.EditarLInventario)
+        self.InventarioPEditar.clicked.connect(self.EditarPInventario)
 
     def BorrarLInventario(self):
         fila = self.tablaLibros.currentRow()
         codigo = self.tablaLibros.item(fila,0).text()
         inventario.eliminar_libro(codigo)
         self.cargar_inventarioL()
+    
+    def EditarLInventario(self):
+        try:
+            fila = self.tablaLibros.currentRow()
+            codigo = self.tablaLibros.item(fila,0).text()
+            nombre = self.tablaLibros.item(fila,1).text()
+            precio = self.tablaLibros.item(fila,2).text()
+            cantidad = self.tablaLibros.item(fila,3).text()
+            autor = self.tablaLibros.item(fila,4).text()
+            genero = self.tablaLibros.item(fila,5).text()
+            anio = self.tablaLibros.item(fila,6).text()
+            num = self.tablaLibros.item(fila,7).text()
+        except AttributeError:
+            print("selecciona un libro primero")
+
+        dialogo = DialogEditarLibro(codigo,nombre,precio,cantidad,autor,genero,anio,num)
+        if(dialogo.exec()):
+            nuevos_datos= dialogo.get_datos()
+            codigo = int(nuevos_datos[0])
+            nombre = nuevos_datos[1]
+            precio = float(nuevos_datos[2])
+            cantidad = int(nuevos_datos[3])
+            autor = nuevos_datos[4]
+            genero = nuevos_datos[5]
+            anio = int(nuevos_datos[6])
+            num = int(nuevos_datos[7])
+            for productos_existentes in inventario.lista_inventario:
+                if str(productos_existentes.codigo) == str(codigo):
+
+                    productos_existentes.editar(nombre,precio,cantidad,autor,genero,anio,num)
+                    productos_existentes.editar_tabla(nombre,precio,cantidad,autor,genero,anio,num)
+                    self.cargar_inventarioL()
+
+    def EditarPInventario(self):
+        try:
+            fila = self.tablaProductos.currentRow()
+            codigo = self.tablaProductos.item(fila,0).text()
+            nombre = self.tablaProductos.item(fila,1).text()
+            precio = self.tablaProductos.item(fila,2).text()
+            cantidad = self.tablaProductos.item(fila,3).text()
+
+        except AttributeError:
+            print("selecciona un Producto primero")
+
+        dialogo = DialogEditarProducto(codigo,nombre,precio,cantidad)
+        if(dialogo.exec()):
+            nuevos_datos= dialogo.get_datos()
+            codigo = int(nuevos_datos[0])
+            nombre = nuevos_datos[1]
+            precio = float(nuevos_datos[2])
+            cantidad = int(nuevos_datos[3])
+
+            for productos_existentes in inventario.lista_inventario:
+                if str(productos_existentes.codigo) == str(codigo):
+
+                    productos_existentes.editar(nombre,precio,cantidad)
+                    productos_existentes.editar_tabla(nombre,precio,cantidad)
+                    self.cargar_inventarioP()
+
     def BorrarPInventario(self):
         fila = self.tablaProductos.currentRow()
         codigo = self.tablaProductos.item(fila,0).text()
@@ -315,6 +376,54 @@ class CierreCaja(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('cierre_caja.ui',self)
+
+class DialogEditarLibro(QDialog):
+    def __init__(self,codigoActual,nombreActual,precioActual,cantidadActual,autorActual,generoActual,anioActual,numActual):
+        super().__init__()
+        uic.loadUi('QdialogLibro.ui',self)
+        self.CodigoInput.setText(codigoActual)
+        self.NombreInput.setText(nombreActual)
+        self.PrecioInput.setText(precioActual)
+        self.CantidadInput.setText(cantidadActual)
+        self.AutorInput.setText(autorActual)
+        self.GeneroInput.setText(generoActual)
+        self.AnioInput.setText(anioActual)
+        self.NumInput.setText(numActual)
+        
+
+
+
+    def get_datos(self):
+        codigo = self.CodigoInput.text()
+        Nombre = self.NombreInput.text()
+        Precio = self.PrecioInput.text()
+        Cantidad = self.CantidadInput.text()
+        Autor = self.AutorInput.text()
+        Genero = self.GeneroInput.text()
+        Anio = self.AnioInput.text()
+        Num = self.NumInput.text()
+
+        return codigo,Nombre,Precio,Cantidad,Autor,Genero,Anio,Num
+
+class DialogEditarProducto(QDialog):
+    def __init__(self,codigoActual,nombreActual,precioActual,cantidadActual):
+        super().__init__()
+        uic.loadUi('QdialogProducto.ui',self)
+        self.CodigoInput.setText(codigoActual)
+        self.NombreInput.setText(nombreActual)
+        self.PrecioInput.setText(precioActual)
+        self.CantidadInput.setText(cantidadActual)
+
+
+
+
+    def get_datos(self):
+        codigo = self.CodigoInput.text()
+        Nombre = self.NombreInput.text()
+        Precio = self.PrecioInput.text()
+        Cantidad = self.CantidadInput.text()
+
+        return codigo,Nombre,Precio,Cantidad
 
 
 
