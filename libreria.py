@@ -25,14 +25,14 @@ class Mi_Ventana(QMainWindow):
         self.tableWidget.setColumnWidth(4, int(tabla_ancho*(1/5)))
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)#Desabilita la edicion de las tablas
 
-        Caja01.crear_venta()#Provisorio para generar la venta actual
         self.cargar_inventarioL()#Cargamos el inventario
         self.cargar_inventarioP()
 
+        #seniales para la venta
         self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
         self.botonFinalizarVenta.clicked.connect(self.finalizar_venta)
         self.botonAnular.clicked.connect(self.anular_venta)
-
+        self.botonEliminarArticulo.clicked.connect(self.remover_articulo)
 
         self.botonCierreCaja.triggered.connect(self.cierre_caja)
         #ponemos la imagen de lupa como el icono del boton
@@ -89,6 +89,8 @@ class Mi_Ventana(QMainWindow):
             print("selecciona un libro primero")
 
         dialogo = DialogEditarLibro(codigo,nombre,precio,cantidad,autor,genero,anio,num)
+        with open('stylesheet.qss','r') as file:
+            dialogo.setStyleSheet(file.read())
         if(dialogo.exec()):
             nuevos_datos= dialogo.get_datos()
             codigo = int(nuevos_datos[0])
@@ -118,6 +120,8 @@ class Mi_Ventana(QMainWindow):
             print("selecciona un Producto primero")
 
         dialogo = DialogEditarProducto(codigo,nombre,precio,cantidad)
+        with open('stylesheet.qss','r') as file:
+            dialogo.setStyleSheet(file.read())
         if(dialogo.exec()):
             nuevos_datos= dialogo.get_datos()
             codigo = int(nuevos_datos[0])
@@ -269,41 +273,63 @@ class Mi_Ventana(QMainWindow):
         self.lcdNumber.display(hora_actual.toString("hh:mm:ss"))
     
     def agregar_producto_codigo(self):
-        indice = Caja01.num_ventas
+        
         unidades = self.spinBox.value()
         codigo = int(self.codigo_barras.text())
         if unidades > 0:
             try:
-                producto = Caja01.ventas[indice].agregar_venta(unidades,codigo,inventario)
-                fila = self.tableWidget.rowCount()
-                self.tableWidget.setRowCount(fila + 1)
-                self.tableWidget.setItem(fila, 0, QTableWidgetItem(str(producto.codigo)))
-                self.tableWidget.setItem(fila, 1, QTableWidgetItem(producto.nombre))
-                self.tableWidget.setItem(fila, 2, QTableWidgetItem(str(producto.precio)))
-                self.tableWidget.setItem(fila, 3, QTableWidgetItem(str(unidades)))
-                self.tableWidget.setItem(fila, 4, QTableWidgetItem(str(unidades*producto.precio)))
-                total =Caja01.ventas[indice].calcular_total()
-                self.total.setText(str(total))
+                for producto_existente in inventario.lista_inventario:
+                    if codigo == producto_existente.codigo:
+                        fila = self.tableWidget.rowCount()
+                        self.tableWidget.setRowCount(fila + 1)
+                        self.tableWidget.setItem(fila, 0, QTableWidgetItem(str(producto_existente.codigo)))
+                        self.tableWidget.setItem(fila, 1, QTableWidgetItem(producto_existente.nombre))
+                        self.tableWidget.setItem(fila, 2, QTableWidgetItem(str(producto_existente.precio)))
+                        self.tableWidget.setItem(fila, 3, QTableWidgetItem(str(unidades)))
+                        self.tableWidget.setItem(fila, 4, QTableWidgetItem(str(unidades*producto_existente.precio)))
+                        total =producto_existente.precio* unidades + float(self.total.text())
+                        self.total.setText(str(total))
+
+                        #Limpiamos los Qlineedit y spinbox
+                        self.codigo_barras.setText('')
+                        self.spinBox.setValue(1)
+                        return 0
+                print("No existe un producto con ese codigo")
             except AttributeError:
-                print("No existe un producto con ese codigoaca")
+                print("No existe un producto con ese codigo")
     def remover_articulo(self):
-        pass
+        item = self.tableWidget.currentItem()
+        if (item == None):
+            return
+        fila = item.row()
+        self.tableWidget.removeRow(fila)
+
     def anular_venta(self):
-        indice = Caja01.num_ventas
-        venta = Caja01.ventas[indice]
-        for articulo in venta.articulos:
-            venta.remover(articulo,1)
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         self.total.setText('0')
     def finalizar_venta(self):
-        indice = Caja01.num_ventas
-        print(indice)
+        #Creamos un objeto venta al final de la lista ventas de caja
+        if self.tableWidget.rowCount() == 0:
+            return
+        
         print(Caja01.ventas)
-        venta = Caja01.ventas[indice]
-        venta.turno_asociado = Caja01.turno
-        venta.insertar_venta()
-        Caja01.vender(venta)
+        Caja01.crear_venta()
+        print(Caja01.ventas)
+        print(self.tableWidget.rowCount(),'porongaaaa')
+        for fila in range(self.tableWidget.rowCount()):
+            print('poronguita')
+            codigo = self.tableWidget.item(fila,0).text()
+            nombre = self.tableWidget.item(fila,1).text()
+            precio = float(self.tableWidget.item(fila,2).text())
+            cantidad = int(self.tableWidget.item(fila,3).text())
+            Caja01.ventas[-1].agregar_venta(codigo,nombre,precio,cantidad)#accedemos a la ultima venta de la caja y agregamos los productos a la venta
+        
+        Caja01.ventas[-1].insertar_venta()
+        total = float(self.total.text())
+        Caja01.vender(total)
+        Caja01.crear_venta()
+        print(Caja01.ventas)
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         self.total.setText('0')

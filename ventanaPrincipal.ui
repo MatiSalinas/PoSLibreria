@@ -24,7 +24,7 @@
        <string notr="true"/>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>0</number>
       </property>
       <property name="tabsClosable">
        <bool>false</bool>
@@ -262,7 +262,7 @@ padding:15px;
 border-radius: 12px;</string>
           </property>
           <property name="text">
-           <string/>
+           <string>0</string>
           </property>
          </widget>
         </item>
@@ -642,7 +642,7 @@ color:snow;</string>
      <x>0</x>
      <y>0</y>
      <width>1052</width>
-     <height>24</height>
+     <height>22</height>
     </rect>
    </property>
    <property name="palette">

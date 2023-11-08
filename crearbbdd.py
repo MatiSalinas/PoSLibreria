@@ -34,10 +34,12 @@ cursor.execute('''
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS Ventas (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        codigo TEXT NOT NULL,
-        nombre TEXT NOT NULL,
-        turno_id INTEGER NOT NULL,
-        FOREIGN KEY (turno_id) REFERENCES Caja (turno)
+        codigo_articulo TEXT,
+        nombre_articulo TEXT,
+        precio_unitario REAL,
+        cantidad_vendida INTEGER,
+        total REAL NOT NULL,
+        turno_id INTEGER NOT NULL
     )
 ''')
 

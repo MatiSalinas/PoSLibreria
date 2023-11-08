@@ -124,45 +124,34 @@ class Inventario:
                 self.conn.commit()
 
 class Venta:
-    def __init__(self):
+    def __init__(self,turno_asociado):
         self.articulos = []
         self.total = 0
-        self.turno_asociado = 0
+        self.turno_asociado = turno_asociado
         self.conn = sqlite3.connect('libreria.db')
         self.cursor = self. conn.cursor()
     
-    def agregar_venta(self,cantidad,codigo,inventario):
-        for producto in inventario.lista_inventario:
-            if producto.codigo == codigo:
-                for i in range(cantidad):
-                    print('agregado')
-                    self.articulos.append(producto)
-                    producto.cantidad -=1
-                return producto
+    def agregar_venta(self,codigo,nombre,precio,cantidad):
+        dicionarioVenta = {'codigo_articulo': codigo,
+        'nombre_articulo': nombre,
+        'precio_unitario': precio,
+        'cantidad_vendida': cantidad}
+        self.articulos.append(dicionarioVenta)
         
 
-    def remover(self,art,unidades):
-        for i in range(unidades):
-            self.articulos.remove(art)
-            art.cantidad += 1
 
     def calcular_total(self):
         self.total = 0
-        for elemento in self.articulos:
-            self.total += elemento.precio
+        for articulo in self.articulos:
+            self.total += articulo['precio_unitario'] * articulo['cantidad_vendida']
         return self.total
-    def __str__(self):
-        nombres = ""
-        for libros in self.articulos:
-            nombres += libros.nombre + ", "
-        return f"Articulos : {nombres} total: {self.total}"
 
     def insertar_venta(self):
-        print(self.articulos)
         for articulo in self.articulos:
+            total = articulo['precio_unitario']*articulo['cantidad_vendida'] 
             self.cursor.execute('''
-            INSERT INTO Ventas (codigo, nombre, turno_id)
-            VALUES (?, ?, ?)''', (articulo.codigo, articulo.nombre, self.turno_asociado))
+            INSERT INTO Ventas (codigo_articulo, nombre_articulo, precio_unitario, cantidad_vendida, total, turno_id)
+            VALUES (?, ?, ?, ?, ?, ?)''', (articulo['codigo_articulo'], articulo['nombre_articulo'],articulo['precio_unitario'],articulo['cantidad_vendida'] ,total,self.turno_asociado))
             self.conn.commit()
 
 
@@ -179,14 +168,12 @@ class Caja:
         self.estado = False
 
     def crear_venta(self):
-        venta = Venta()
+        venta = Venta(self.turno)
         self.ventas.append(venta)
-    def vender(self,venta):
+    def vender(self,total):
         self.num_ventas += 1
-        self.caja += venta.total
-        self.ventas.append(venta)
-        ventaNueva = Venta()
-        self.ventas.append(ventaNueva)
+        self.caja += total
+        
 
     def reporte(self):
         for venta in self.ventas:
