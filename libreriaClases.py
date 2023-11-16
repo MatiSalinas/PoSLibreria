@@ -71,6 +71,7 @@ class Libro(Producto):
 class Inventario:
     def __init__(self):
         self.lista_inventario= []
+        self.lista_cajas = []
         self.conn = sqlite3.connect('libreria.db')
         self.cursor = self.conn.cursor()
 
@@ -81,7 +82,23 @@ class Inventario:
                 return 0
         self.lista_inventario.append(producto)
 
-    
+    def cargar_cajas_desde_bd(self):
+        #Recupera las cajas desde la tabla Cajas
+        self.cursor.execute('''SELECT turno, vendedor, num_ventas, sobrante, caja FROM Caja''')
+        cajas =self.cursor.fetchall()
+
+        for caja_data in cajas:
+            turno, vendedor, num_ventas,sobrante,caja = caja_data
+            cajita = Caja(turno, vendedor)
+            cajita.num_ventas = num_ventas
+            cajita.sobranteFaltante = sobrante
+            cajita.caja = caja
+            self.lista_cajas.append(cajita)
+
+    def abrir_caja(self,turno,cajero):
+        cajita = Caja(turno, cajero)
+        self.lista_cajas.append(cajita)
+
     def cargar_inventario_desde_bd(self):
         # Recupera los productos de la tabla Producto
         self.cursor.execute('SELECT nombre, codigo, precio, cantidad FROM Producto')
@@ -129,7 +146,7 @@ class Venta:
         self.total = 0
         self.turno_asociado = turno_asociado
         self.conn = sqlite3.connect('libreria.db')
-        self.cursor = self. conn.cursor()
+        self.cursor = self.conn.cursor()
     
     def agregar_venta(self,codigo,nombre,precio,cantidad):
         dicionarioVenta = {'codigo_articulo': codigo,
@@ -163,10 +180,10 @@ class Caja:
         self.num_ventas = 0
         self.ventas =  []
         self.caja =  0
+        self.sobranteFaltante = 0
         self.conn = sqlite3.connect('libreria.db')
         self.cursor = self.conn.cursor()
         self.estado = False
-
     def crear_venta(self):
         venta = Venta(self.turno)
         self.ventas.append(venta)
@@ -188,12 +205,20 @@ class Caja:
     
     def cerrar_caja(self):
         self.estado = False
+    
+    def calcular_ingresos(self):
+        self.cursor.execute("SELECT total FROM Ventas WHERE turno_id = ?", (self.turno,))
+        resultados = self.cursor.fetchall()
+        total = 0
+        for resultado in resultados:
+            total += resultado[0]
+        return total
 
     
     def insertar_caja(self):
         self.cursor.execute('''
-        INSERT INTO Caja (turno, vendedor, num_ventas, caja)
-        VALUES (?, ?, ?, ?)''', (self.turno, self.vendedor, self.num_ventas, self.caja))
+        INSERT INTO Caja (turno, vendedor, num_ventas,sobrante ,caja)
+        VALUES (?, ?, ?, ?, ?)''', (self.turno, self.vendedor, self.num_ventas, self.sobranteFaltante,self.caja))
         self.conn.commit()
 
 

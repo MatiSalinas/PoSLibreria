@@ -6,28 +6,279 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>959</width>
-    <height>776</height>
+    <width>870</width>
+    <height>569</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="groupBox_4">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>30</y>
-      <width>491</width>
-      <height>691</height>
+      <x>0</x>
+      <y>10</y>
+      <width>380</width>
+      <height>551</height>
      </rect>
     </property>
-    <property name="sizePolicy">
-     <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-      <horstretch>0</horstretch>
-      <verstretch>0</verstretch>
-     </sizepolicy>
+    <property name="title">
+     <string/>
+    </property>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>10</y>
+       <width>360</width>
+       <height>491</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string/>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="numeroTurno">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="retiroInput"/>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="retiros">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(255, 254, 212);
+color:black;
+</string>
+        </property>
+        <property name="text">
+         <string> RETIROS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="num_turno">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold SemiConden</family>
+          <pointsize>14</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(255, 255, 255);
+color:black;</string>
+        </property>
+        <property name="text">
+         <string> NÚMERO DE TURNO</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="efectivoRendidoLabel">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="tarj_credito">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(155, 255, 172);
+color:black;
+</string>
+        </property>
+        <property name="text">
+         <string> TARJETA DE CRÉDITO</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="efectivo_rendido">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold SemiConden</family>
+          <pointsize>14</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(255, 255, 255);
+color:black;
+</string>
+        </property>
+        <property name="text">
+         <string> EFECTIVO RENDIDO</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="tarjetaInput"/>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="transferencias">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(155, 255, 172);
+color:black;
+</string>
+        </property>
+        <property name="text">
+         <string> TRANSFERENCIAS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="ingresos">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(255, 101, 101)
+</string>
+        </property>
+        <property name="text">
+         <string> INGRESOS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="egresos_pagos">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="font">
+         <font>
+          <family>Bahnschrift SemiBold</family>
+          <pointsize>9</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color:rgb(255, 254, 212);
+color:black;
+</string>
+        </property>
+        <property name="text">
+         <string> EGRESOS/PAGOS</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="egresosInput"/>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="tranferenciasInput"/>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="ingresosInput">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+    <widget class="QLabel" name="label_9">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>510</y>
+       <width>361</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string>CIERRE DE CAJA </string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QGroupBox" name="groupBox_5">
+    <property name="geometry">
+     <rect>
+      <x>390</x>
+      <y>10</y>
+      <width>411</width>
+      <height>551</height>
+     </rect>
     </property>
     <property name="title">
      <string/>
@@ -35,10 +286,10 @@
     <widget class="QGroupBox" name="groupBox_3">
      <property name="geometry">
       <rect>
-       <x>0</x>
-       <y>10</y>
-       <width>261</width>
-       <height>631</height>
+       <x>10</x>
+       <y>30</y>
+       <width>181</width>
+       <height>441</height>
       </rect>
      </property>
      <property name="title">
@@ -47,10 +298,10 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>150</y>
-        <width>171</width>
-        <height>101</height>
+        <x>0</x>
+        <y>90</y>
+        <width>151</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -72,10 +323,10 @@
      <widget class="QLabel" name="label_3">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>280</y>
-        <width>171</width>
-        <height>101</height>
+        <x>0</x>
+        <y>180</y>
+        <width>151</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -97,10 +348,10 @@
      <widget class="QLabel" name="label_2">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>30</y>
-        <width>171</width>
-        <height>101</height>
+        <x>0</x>
+        <y>0</y>
+        <width>151</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -122,10 +373,10 @@
      <widget class="QLabel" name="label_4">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>400</y>
-        <width>171</width>
-        <height>101</height>
+        <x>0</x>
+        <y>270</y>
+        <width>151</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -147,10 +398,10 @@
      <widget class="QLabel" name="label_5">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>520</y>
-        <width>171</width>
-        <height>101</height>
+        <x>0</x>
+        <y>360</y>
+        <width>151</width>
+        <height>81</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -170,507 +421,99 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="layoutWidget">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="geometry">
       <rect>
-       <x>290</x>
-       <y>10</y>
+       <x>210</x>
+       <y>20</y>
+       <width>211</width>
+       <height>451</height>
+      </rect>
+     </property>
+     <property name="title">
+      <string>Ingrese los billetes</string>
+     </property>
+     <widget class="QLineEdit" name="quinientos">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>210</y>
+        <width>133</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="cien">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>390</y>
+        <width>133</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="doscientos">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>300</y>
+        <width>133</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="dosmil">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>40</y>
+        <width>133</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="mil">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>120</y>
+        <width>133</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>0</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QPushButton" name="botonFinalizar">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>500</y>
        <width>161</width>
-       <height>631</height>
+       <height>27</height>
       </rect>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLineEdit" name="lineEdit_14">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>22</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_15">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>22</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_16">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>22</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_17">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>22</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineEdit_18">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="font">
-         <font>
-          <pointsize>22</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>100</x>
-       <y>650</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="font">
-      <font>
-       <family>Bahnschrift Light</family>
-       <pointsize>12</pointsize>
-      </font>
      </property>
      <property name="text">
-      <string>EFECTIVO:</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>238</x>
-       <y>645</y>
-       <width>151</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(238, 238, 119);</string>
-     </property>
-     <property name="text">
-      <string/>
+      <string>Finalizar</string>
      </property>
     </widget>
    </widget>
-   <widget class="QGroupBox" name="groupBox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>411</width>
-      <height>701</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string/>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="3" column="0">
-      <widget class="QLabel" name="ingresos">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 101, 101)
-</string>
-       </property>
-       <property name="text">
-        <string> INGRESOS</string>
-       </property>
-      </widget>
-     </item>
-     <item row="8" column="1">
-      <widget class="QLineEdit" name="lineEdit_9"/>
-     </item>
-     <item row="12" column="0">
-      <widget class="QLabel" name="efectivo_rendido">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold SemiConden</family>
-         <pointsize>14</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 255, 255)
-</string>
-       </property>
-       <property name="text">
-        <string> EFECTIVO RENDIDO</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="cuenta_corr">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(155, 255, 172)
-</string>
-       </property>
-       <property name="text">
-        <string> CUENTA CORRIENTE</string>
-       </property>
-      </widget>
-     </item>
-     <item row="10" column="1">
-      <widget class="QLineEdit" name="lineEdit_11"/>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="adi_sal_virtual">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 101, 101)
-</string>
-       </property>
-       <property name="text">
-        <string> ADICIONAL DE SALDO VIRTUAL</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEdit_2"/>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEdit_3"/>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="num_turno">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold SemiConden</family>
-         <pointsize>14</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 255, 255)
-</string>
-       </property>
-       <property name="text">
-        <string> NÚMERO DE TURNO</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="0">
-      <widget class="QLabel" name="canje_cupon">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(155, 255, 172)
-</string>
-       </property>
-       <property name="text">
-        <string> CANJE/CUPONES DESCUENTO</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
-      <widget class="QLineEdit" name="lineEdit_4"/>
-     </item>
-     <item row="5" column="1">
-      <widget class="QLineEdit" name="lineEdit_6"/>
-     </item>
-     <item row="4" column="1">
-      <widget class="QLineEdit" name="lineEdit_5"/>
-     </item>
-     <item row="10" column="0">
-      <widget class="QLabel" name="retiros">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 254, 212)
-</string>
-       </property>
-       <property name="text">
-        <string> RETIROS</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QLabel" name="tarj_credito">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(155, 255, 172)
-</string>
-       </property>
-       <property name="text">
-        <string> TARJETA DE CRÉDITO</string>
-       </property>
-      </widget>
-     </item>
-     <item row="7" column="1">
-      <widget class="QLineEdit" name="lineEdit_8"/>
-     </item>
-     <item row="9" column="1">
-      <widget class="QLineEdit" name="lineEdit_10"/>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEdit"/>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="cambio_tur_ant">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(155, 255, 172)
-</string>
-       </property>
-       <property name="text">
-        <string> CAMBIO RECIBIDO TURNO ANTERIOR</string>
-       </property>
-      </widget>
-     </item>
-     <item row="12" column="1">
-      <widget class="QLineEdit" name="lineEdit_13"/>
-     </item>
-     <item row="8" column="0">
-      <widget class="QLabel" name="transferencias">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(155, 255, 172)
-</string>
-       </property>
-       <property name="text">
-        <string> TRANSFERENCIAS</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="0">
-      <widget class="QLabel" name="cambio_tur_sig">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 254, 212)
-</string>
-       </property>
-       <property name="text">
-        <string> CAMBIO ENTREGADO AL TURNO SIG.</string>
-       </property>
-      </widget>
-     </item>
-     <item row="11" column="1">
-      <widget class="QLineEdit" name="lineEdit_12"/>
-     </item>
-     <item row="4" column="0">
-      <widget class="QLabel" name="venta_sal_virtual">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 101, 101)
-</string>
-       </property>
-       <property name="text">
-        <string> VENTA DE SALDO VIRTUAL</string>
-       </property>
-      </widget>
-     </item>
-     <item row="9" column="0">
-      <widget class="QLabel" name="egresos_pagos">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="MinimumExpanding">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="font">
-        <font>
-         <family>Bahnschrift SemiBold</family>
-         <pointsize>9</pointsize>
-         <bold>true</bold>
-        </font>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color:rgb(255, 254, 212)
-</string>
-       </property>
-       <property name="text">
-        <string> EGRESOS/PAGOS</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="1">
-      <widget class="QLineEdit" name="lineEdit_7"/>
-     </item>
-    </layout>
-   </widget>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>959</width>
-     <height>22</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

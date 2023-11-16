@@ -2,13 +2,15 @@ import libreriaClases
 from PyQt6 import uic, QtGui, QtCore
 from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView , QDialog
 from PyQt6.QtCore import QTime,QTimer
-import sys
 
+import csv
 
 #Todo, crear ventana que inicialice la caja y el inventario
-Caja01= libreriaClases.Caja(1,'Matias')
+
 inventario = libreriaClases.Inventario()
+
 inventario.cargar_inventario_desde_bd()
+inventario.cargar_cajas_desde_bd()
 
 class Mi_Ventana(QMainWindow):
     def __init__(self):
@@ -17,7 +19,6 @@ class Mi_Ventana(QMainWindow):
         
         #Acomodamos las columnas de la tabla para que esten bien espaciadas
         tabla_ancho = self.tableWidget.width()
-        print(tabla_ancho)
         self.tableWidget.setColumnWidth(0, int(tabla_ancho*(1/2)))
         self.tableWidget.setColumnWidth(1, int(tabla_ancho*(1/2)))
         self.tableWidget.setColumnWidth(2, int(tabla_ancho*(1/4)))
@@ -25,8 +26,10 @@ class Mi_Ventana(QMainWindow):
         self.tableWidget.setColumnWidth(4, int(tabla_ancho*(1/5)))
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)#Desabilita la edicion de las tablas
 
-        self.cargar_inventarioL()#Cargamos el inventario
+        self.cargar_inventarioL()#Cargamos el inventario en las tablas de inventario
         self.cargar_inventarioP()
+
+        #self.principal.setTabEnabled(0,False) #deshabilita el tab con indice 0 TODO habilitar y deshabilitar la tab ventas en base a si la ultima caja esta abierta o cerrada
 
         #seniales para la venta
         self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
@@ -34,18 +37,22 @@ class Mi_Ventana(QMainWindow):
         self.botonAnular.clicked.connect(self.anular_venta)
         self.botonEliminarArticulo.clicked.connect(self.remover_articulo)
 
+        #seniales en los botones de menu
+        self.abrirTurno.triggered.connect(self.abrir_caja)
         self.botonCierreCaja.triggered.connect(self.cierre_caja)
+        self.botonRendicionCaja.triggered.connect(self.rendicion_caja)
+
         #ponemos la imagen de lupa como el icono del boton
         self.lupa.setIcon(QtGui.QIcon('lupo.png'))
         self.lupa.setIconSize(QtCore.QSize(self.lupa.width(),self.lupa.height()))
 
 
-        ##ventana buscar conectada a el input de nombre
+        #ventana buscar conectada a el input de nombre
         self.ventanaBusqueda = VentanaBuscar(self)
         self.nombre_producto.returnPressed.connect(self.buscar_producto)
         self.lupa.clicked.connect(self.buscar_producto)
 
-        self.ventanaCierre = CierreCaja()
+        self.ventanaCierre = VentanaCierre()
 
         #RELOJ
         self.lcdNumber.setDigitCount(8)  # Para mostrar una hora en formato HH:MM:SS
@@ -254,9 +261,29 @@ class Mi_Ventana(QMainWindow):
                     limpiar()
                     self.cargar_inventarioP()
 
-
+    def abrir_caja(self):
+        if inventario.lista_cajas[-1].estado:
+            dialogo = DialogAperturaCaja()
+            with open('stylesheet.qss','r') as file:
+                dialogo.setStyleSheet(file.read())
+            if(dialogo.exec()):
+                datos= dialogo.get_datos()
+                inventario.abrir_caja(int(datos[0]),datos[1])
+        else:
+            print("Ya hay una caja abierta")
     def cierre_caja(self):
+        if inventario.lista_cajas[-1].estado:
+            print("La caja ya esta cerrada")
+        else:
+            inventario.lista_cajas[-1].estado = True
+            print("Caja Cerrada")
+    def rendicion_caja(self):
         self.ventanaCierre.show()
+        ingresos = str(inventario.lista_cajas[-1].calcular_ingresos())
+        turno = str(inventario.lista_cajas[-1].turno)
+        self.ventanaCierre.ingresosInput.setText(ingresos)
+        self.ventanaCierre.numeroTurno.setText(turno)
+
 
     def buscar_producto(self):
         with open('stylesheet.qss','r') as file:
@@ -300,36 +327,39 @@ class Mi_Ventana(QMainWindow):
     def remover_articulo(self):
         item = self.tableWidget.currentItem()
         if (item == None):
-            return
+            return # no hacer nada si no hay un elemento seleccionado
         fila = item.row()
+        totalArticulo = float(self.tableWidget.item(fila,4).text())
+        total = float(self.total.text())
+        total -= totalArticulo
+        self.total.setText(str(total))
         self.tableWidget.removeRow(fila)
+
 
     def anular_venta(self):
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         self.total.setText('0')
+
+
     def finalizar_venta(self):
         #Creamos un objeto venta al final de la lista ventas de caja
         if self.tableWidget.rowCount() == 0:
-            return
+            return #el boton no hara nada si no hay ningun producto en la tabla
         
-        print(Caja01.ventas)
-        Caja01.crear_venta()
-        print(Caja01.ventas)
-        print(self.tableWidget.rowCount(),'porongaaaa')
+        inventario.lista_cajas[-1].crear_venta()
         for fila in range(self.tableWidget.rowCount()):
-            print('poronguita')
             codigo = self.tableWidget.item(fila,0).text()
             nombre = self.tableWidget.item(fila,1).text()
             precio = float(self.tableWidget.item(fila,2).text())
             cantidad = int(self.tableWidget.item(fila,3).text())
-            Caja01.ventas[-1].agregar_venta(codigo,nombre,precio,cantidad)#accedemos a la ultima venta de la caja y agregamos los productos a la venta
+            inventario.lista_cajas[-1].ventas[-1].agregar_venta(codigo,nombre,precio,cantidad)#accedemos a la ultima venta de la caja y agregamos los productos a la venta
         
-        Caja01.ventas[-1].insertar_venta()
+        inventario.lista_cajas[-1].ventas[-1].insertar_venta()
         total = float(self.total.text())
-        Caja01.vender(total)
-        Caja01.crear_venta()
-        print(Caja01.ventas)
+        inventario.lista_cajas[-1].vender(total)
+        inventario.lista_cajas[-1].crear_venta()
+
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         self.total.setText('0')
@@ -398,10 +428,6 @@ class VentanaBuscar(QMainWindow):
 
 
 
-class CierreCaja(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        uic.loadUi('cierre_caja.ui',self)
 
 class DialogEditarLibro(QDialog):
     def __init__(self,codigoActual,nombreActual,precioActual,cantidadActual,autorActual,generoActual,anioActual,numActual):
@@ -440,19 +466,61 @@ class DialogEditarProducto(QDialog):
         self.PrecioInput.setText(precioActual)
         self.CantidadInput.setText(cantidadActual)
 
-
-
+class DialogAperturaCaja(QDialog):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('aperturaCaja.ui',self)
+        turno = inventario.lista_cajas[-1].turno
+        turno +=1
+        self.TurnoLabel.setText(str(turno))
 
     def get_datos(self):
-        codigo = self.CodigoInput.text()
-        Nombre = self.NombreInput.text()
-        Precio = self.PrecioInput.text()
-        Cantidad = self.CantidadInput.text()
+        turno = self.TurnoLabel.text()
+        cajero = self.CajeroInput.text()
+        return turno,cajero
 
-        return codigo,Nombre,Precio,Cantidad
+class VentanaCierre(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('cierre_caja.ui',self)
+        validador = QtGui.QIntValidator(0, 10000)
+        self.dosmil.setValidator(validador)
+        self.mil.setValidator(validador)
+        self.quinientos.setValidator(validador)
+        self.doscientos.setValidator(validador)
+        self.cien.setValidator(validador)
 
 
+        self.dosmil.returnPressed.connect(self.efectivo)
+        self.mil.returnPressed.connect(self.efectivo)
+        self.quinientos.returnPressed.connect(self.efectivo)
+        self.doscientos.returnPressed.connect(self.efectivo)
+        self.cien.returnPressed.connect(self.efectivo)
+        self.botonFinalizar.clicked.connect(self.finalizar)
 
+    def efectivo(self):
+        dossmil=int(self.dosmil.text())
+        mill=int(self.mil.text())
+        quinien=int(self.quinientos.text())
+        doscie=int(self.doscientos.text())
+        cienpe=int(self.cien.text())
+        total1=str(dossmil*2000+mill*1000+quinien*500+doscie*200+cienpe*100)
+        self.efectivoRendidoLabel.setText(total1)
+    
+    def finalizar(self):
+        total = float(self.ingresosInput.text())
+        efectivoARendir = total - int(self.tarjetaInput.text()) - int(self.tranferenciasInput.text()) - int(self.egresosInput.text())- int(self.retiroInput.text())
+        sobrante = efectivoARendir - int(self.efectivoRendidoLabel.text()) 
+        inventario.lista_cajas[-1].sobrante = sobrante
+
+        archivo = open('Reportes.csv', 'a', newline='')
+        escritor_csv = csv.writer(archivo, delimiter=',', quotechar='"')
+
+        # Escribir los datos
+        escritor_csv.writerow(['jose', 'sanchez', 'js@correo.com','jose', 'sanchez', 'js@correo.com','jose', 'sanchez', 'js@correo.com'])
+        # Cerrar archivo
+        archivo.close()
+        #TODO Cerrar ventana
 
 app = QApplication([])
 

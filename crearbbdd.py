@@ -50,6 +50,7 @@ cursor.execute('''
         turno INTEGER NOT NULL,
         vendedor TEXT NOT NULL,
         num_ventas INTEGER NOT NULL,
+        sobrante INTEGER NOT NULL,
         caja REAL NOT NULL
     )
 ''')

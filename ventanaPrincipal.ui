@@ -81,7 +81,8 @@
            </sizepolicy>
           </property>
           <property name="styleSheet">
-           <string notr="true">background-color: rgb(255, 255, 255);</string>
+           <string notr="true">background-color: rgb(255, 255, 255);
+color:black;</string>
           </property>
           <property name="value">
            <number>1</number>
@@ -1094,19 +1095,19 @@ color:snow;</string>
     <property name="title">
      <string>Apertura Turno</string>
     </property>
-    <addaction name="actionAbrir_Turno"/>
+    <addaction name="abrirTurno"/>
    </widget>
    <widget class="QMenu" name="menuCierre_Turno">
     <property name="title">
      <string>Cierre Turno</string>
     </property>
     <addaction name="botonCierreCaja"/>
-    <addaction name="actionRendicion_de_caja"/>
+    <addaction name="botonRendicionCaja"/>
    </widget>
    <addaction name="menuAoertyra_Tyrbo"/>
    <addaction name="menuCierre_Turno"/>
   </widget>
-  <action name="actionAbrir_Turno">
+  <action name="abrirTurno">
    <property name="text">
     <string>Abrir Turno </string>
    </property>
@@ -1116,7 +1117,7 @@ color:snow;</string>
     <string>Cerrar Turno</string>
    </property>
   </action>
-  <action name="actionRendicion_de_caja">
+  <action name="botonRendicionCaja">
    <property name="text">
     <string>Rendicion de caja</string>
    </property>
