@@ -1,3 +1,2 @@
-Turno,Cajero,Total Caja,Tarjetas,Transferencas,Retiros,Egresos,Efectivo a rendir,Sobrante/faltante
-jose,sanchez,js@correo.com,jose,sanchez,js@correo.com,jose,sanchez,js@correo.com
-jose,sanchez,js@correo.com,jose,sanchez,js@correo.com,jose,sanchez,js@correo.com
+Turno,Cajero,Total Caja,Tarjetas,Transferencas,Retiros,Egresos,Efectivo a rendir,Efectivo Rendido,Sobrante/faltante
+1,Matias,28800.0,10000,0,0,0,18800.0,17100,-1700.0

@@ -509,15 +509,22 @@ class VentanaCierre(QMainWindow):
     
     def finalizar(self):
         total = float(self.ingresosInput.text())
-        efectivoARendir = total - int(self.tarjetaInput.text()) - int(self.tranferenciasInput.text()) - int(self.egresosInput.text())- int(self.retiroInput.text())
-        sobrante = efectivoARendir - int(self.efectivoRendidoLabel.text()) 
-        inventario.lista_cajas[-1].sobrante = sobrante
+        turno = inventario.lista_cajas[-1].turno
+        cajero = inventario.lista_cajas[-1].vendedor
+        tarjetas = int(self.tarjetaInput.text())
+        transferencias = int(self.tranferenciasInput.text())
+        retiros = int(self.retiroInput.text())
+        egresos = int(self.egresosInput.text())
+        efectivoARendir = total - tarjetas - transferencias -egresos- retiros
+        efectivoRendido = int(self.efectivoRendidoLabel.text()) 
+        sobrante = efectivoRendido - efectivoARendir 
+        inventario.lista_cajas[-1].sobrante = sobrante 
 
         archivo = open('Reportes.csv', 'a', newline='')
         escritor_csv = csv.writer(archivo, delimiter=',', quotechar='"')
 
         # Escribir los datos
-        escritor_csv.writerow(['jose', 'sanchez', 'js@correo.com','jose', 'sanchez', 'js@correo.com','jose', 'sanchez', 'js@correo.com'])
+        escritor_csv.writerow([turno, cajero, total,tarjetas, transferencias, retiros,egresos, efectivoARendir, efectivoRendido,sobrante])
         # Cerrar archivo
         archivo.close()
         #TODO Cerrar ventana

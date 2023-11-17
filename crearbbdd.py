@@ -51,7 +51,8 @@ cursor.execute('''
         vendedor TEXT NOT NULL,
         num_ventas INTEGER NOT NULL,
         sobrante INTEGER NOT NULL,
-        caja REAL NOT NULL
+        caja REAL NOT NULL,
+        estado BIT DEFAULT 0
     )
 ''')
 
