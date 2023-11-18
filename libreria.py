@@ -354,11 +354,12 @@ class Mi_Ventana(QMainWindow):
             precio = float(self.tableWidget.item(fila,2).text())
             cantidad = int(self.tableWidget.item(fila,3).text())
             inventario.lista_cajas[-1].ventas[-1].agregar_venta(codigo,nombre,precio,cantidad)#accedemos a la ultima venta de la caja y agregamos los productos a la venta
-        
-        inventario.lista_cajas[-1].ventas[-1].insertar_venta()
+            inventario.actualizar_inventario_post_venta(codigo,cantidad)
+        inventario.lista_cajas[-1].ventas[-1].insertar_venta()#guardamos la venta en la tabla ventas de la base de datos
         total = float(self.total.text())
-        inventario.lista_cajas[-1].vender(total)
-        inventario.lista_cajas[-1].crear_venta()
+        inventario.lista_cajas[-1].vender(total)#sumamos el total de la venta a la caja 
+        self.cargar_inventarioL()#volvemos a cargar el inventario asi se ve reflejado en la tabla de inventario
+        self.cargar_inventarioP()
 
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
@@ -483,13 +484,17 @@ class VentanaCierre(QMainWindow):
     def __init__(self):
         super().__init__()
         uic.loadUi('cierre_caja.ui',self)
-        validador = QtGui.QIntValidator(0, 10000)
+        validador = QtGui.QIntValidator(0, 10000000)
         self.dosmil.setValidator(validador)
         self.mil.setValidator(validador)
         self.quinientos.setValidator(validador)
         self.doscientos.setValidator(validador)
         self.cien.setValidator(validador)
 
+        self.tarjetaInput.setValidator(validador)
+        self.tranferenciasInput.setValidator(validador)
+        self.retiroInput.setValidator(validador)
+        self.egresosInput.setValidator(validador)
 
         self.dosmil.returnPressed.connect(self.efectivo)
         self.mil.returnPressed.connect(self.efectivo)
@@ -527,7 +532,7 @@ class VentanaCierre(QMainWindow):
         escritor_csv.writerow([turno, cajero, total,tarjetas, transferencias, retiros,egresos, efectivoARendir, efectivoRendido,sobrante])
         # Cerrar archivo
         archivo.close()
-        #TODO Cerrar ventana
+        self.close()
 
 app = QApplication([])
 

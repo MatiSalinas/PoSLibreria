@@ -1104,8 +1104,15 @@ color:snow;</string>
     <addaction name="botonCierreCaja"/>
     <addaction name="botonRendicionCaja"/>
    </widget>
+   <widget class="QMenu" name="menuGenerar_Reportes">
+    <property name="title">
+     <string>Generar Reportes</string>
+    </property>
+    <addaction name="reporte_Ventas"/>
+   </widget>
    <addaction name="menuAoertyra_Tyrbo"/>
    <addaction name="menuCierre_Turno"/>
+   <addaction name="menuGenerar_Reportes"/>
   </widget>
   <action name="abrirTurno">
    <property name="text">
@@ -1120,6 +1127,11 @@ color:snow;</string>
   <action name="botonRendicionCaja">
    <property name="text">
     <string>Rendicion de caja</string>
+   </property>
+  </action>
+  <action name="reporte_Ventas">
+   <property name="text">
+    <string>Reporte Ventas</string>
    </property>
   </action>
  </widget>

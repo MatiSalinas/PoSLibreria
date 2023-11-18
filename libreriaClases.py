@@ -30,6 +30,14 @@ class Producto:
         INSERT INTO Producto (nombre, codigo, precio, cantidad)
         VALUES (?, ?, ?, ?)''', (self.nombre, self.codigo, self.precio, self.cantidad))
         self.conn.commit()
+    def Actualizar_venta(self,unidades):
+        self.cantidad -= unidades
+        self.cursor.execute('''
+            UPDATE Producto
+            SET cantidad = ?
+            WHERE codigo = ?
+        ''', ( self.cantidad, self.codigo))
+        self.conn.commit()
 
 class Libro(Producto):
     def __init__(self,nombre,codigo,precio,cantidad,autor,genero,anio,num_paginas):
@@ -67,6 +75,15 @@ class Libro(Producto):
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (self.nombre, self.codigo, self.precio,self.cantidad, self.autor, self.genero, self.anio, self.num_paginas))
         self.conn.commit()
         print('completado')
+    def Actualizar_venta(self,unidades):
+        self.cantidad -= unidades
+        self.cursor.execute('''
+            UPDATE Libro
+            SET cantidad = ?
+            WHERE codigo = ?
+        ''', ( self.cantidad, self.codigo))
+        self.conn.commit()
+        print('sucedi')
 
 class Inventario:
     def __init__(self):
@@ -81,6 +98,12 @@ class Inventario:
                 print('Ya existe un producto con ese nombre')
                 return 0
         self.lista_inventario.append(producto)
+
+    def actualizar_inventario_post_venta(self,codigo,cantidad):
+        for producto_existente in self.lista_inventario:
+            if str(producto_existente.codigo) == codigo:
+                producto_existente.Actualizar_venta(cantidad)
+                print('entre')
 
     def cargar_cajas_desde_bd(self):
         #Recupera las cajas desde la tabla Cajas
