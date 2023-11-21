@@ -87,10 +87,15 @@ class Mi_Ventana(QMainWindow):
             self.principal.setTabEnabled(0,True)
 
     def BorrarLInventario(self):
-        fila = self.tablaLibros.currentRow()
-        codigo = self.tablaLibros.item(fila,0).text()
-        inventario.eliminar_libro(codigo)
-        self.cargar_inventarioL()
+        try:
+            fila = self.tablaLibros.currentRow()
+            codigo = self.tablaLibros.item(fila,0).text()
+            inventario.eliminar_libro(codigo)
+            self.cargar_inventarioL()
+        except AttributeError:
+                    titulo = 'Error'
+                    cuerpo = 'Seleccione un Libro primero'
+                    mensaje(titulo,cuerpo)
     
     def EditarLInventario(self):
         try:
@@ -160,10 +165,15 @@ class Mi_Ventana(QMainWindow):
                     cuerpo = 'Seleccione un Producto primero'
                     mensaje(titulo,cuerpo)
     def BorrarPInventario(self):
-        fila = self.tablaProductos.currentRow()
-        codigo = self.tablaProductos.item(fila,0).text()
-        inventario.eliminar_producto(codigo)
-        self.cargar_inventarioP()
+        try:
+            fila = self.tablaProductos.currentRow()
+            codigo = self.tablaProductos.item(fila,0).text()
+            inventario.eliminar_producto(codigo)
+            self.cargar_inventarioP()
+        except AttributeError:
+                    titulo = 'Error'
+                    cuerpo = 'Seleccione un Producto primero'
+                    mensaje(titulo,cuerpo)
     def ComprasRadio(self):
         #Desactivamos o activamos los campos necesarios para cada opcion
         if self.rb_crearLibro.isChecked():
