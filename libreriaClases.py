@@ -74,7 +74,6 @@ class Libro(Producto):
         INSERT INTO Libro (nombre, codigo, precio,cantidad, autor, genero, anio, num_paginas)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)''', (self.nombre, self.codigo, self.precio,self.cantidad, self.autor, self.genero, self.anio, self.num_paginas))
         self.conn.commit()
-        print('completado')
     def Actualizar_venta(self,unidades):
         self.cantidad -= unidades
         self.cursor.execute('''
@@ -83,7 +82,7 @@ class Libro(Producto):
             WHERE codigo = ?
         ''', ( self.cantidad, self.codigo))
         self.conn.commit()
-        print('sucedi')
+
 
 class Inventario:
     def __init__(self):
@@ -103,19 +102,20 @@ class Inventario:
         for producto_existente in self.lista_inventario:
             if str(producto_existente.codigo) == codigo:
                 producto_existente.Actualizar_venta(cantidad)
-                print('entre')
+
 
     def cargar_cajas_desde_bd(self):
         #Recupera las cajas desde la tabla Cajas
-        self.cursor.execute('''SELECT turno, vendedor, num_ventas, sobrante, caja FROM Caja''')
+        self.cursor.execute('''SELECT turno, vendedor, num_ventas, sobrante, caja, estado FROM Caja''')
         cajas =self.cursor.fetchall()
 
         for caja_data in cajas:
-            turno, vendedor, num_ventas,sobrante,caja = caja_data
+            turno, vendedor, num_ventas,sobrante,caja,estado = caja_data
             cajita = Caja(turno, vendedor)
             cajita.num_ventas = num_ventas
             cajita.sobranteFaltante = sobrante
             cajita.caja = caja
+            cajita.estado = estado
             self.lista_cajas.append(cajita)
 
     def abrir_caja(self,turno,cajero):
@@ -215,9 +215,6 @@ class Caja:
         self.caja += total
         
 
-    def reporte(self):
-        for venta in self.ventas:
-            print(venta)
     def abrir_caja(self,vendedor):
         self.estado = True
         self.turno +=1
@@ -240,10 +237,19 @@ class Caja:
     
     def insertar_caja(self):
         self.cursor.execute('''
-        INSERT INTO Caja (turno, vendedor, num_ventas,sobrante ,caja)
-        VALUES (?, ?, ?, ?, ?)''', (self.turno, self.vendedor, self.num_ventas, self.sobranteFaltante,self.caja))
+        INSERT INTO Caja (turno, vendedor, num_ventas,sobrante ,caja, estado)
+        VALUES (?, ?, ?, ?, ?, ?)''', (self.turno, self.vendedor, self.num_ventas, self.sobranteFaltante,self.caja,self.estado))
         self.conn.commit()
-
+    def Actualizar_Caja(self):
+        self.cursor.execute('''
+            UPDATE Caja
+            SET num_ventas = ?,
+            sobrante = ?,
+            caja = ?,
+            estado = ?
+            WHERE turno = ?
+        ''', ( self.num_ventas, self.sobranteFaltante,self.caja ,self.estado,self.turno))
+        self.conn.commit()
 
 
 

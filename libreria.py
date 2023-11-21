@@ -1,8 +1,8 @@
 import libreriaClases
 from PyQt6 import uic, QtGui, QtCore
-from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView , QDialog
+from PyQt6.QtWidgets import QApplication, QMainWindow,QTableWidgetItem, QAbstractItemView , QDialog, QMessageBox
 from PyQt6.QtCore import QTime,QTimer
-
+import sqlite3
 import csv
 
 #Todo, crear ventana que inicialice la caja y el inventario
@@ -28,8 +28,7 @@ class Mi_Ventana(QMainWindow):
 
         self.cargar_inventarioL()#Cargamos el inventario en las tablas de inventario
         self.cargar_inventarioP()
-
-        #self.principal.setTabEnabled(0,False) #deshabilita el tab con indice 0 TODO habilitar y deshabilitar la tab ventas en base a si la ultima caja esta abierta o cerrada
+        self.des_habilitar_ventas()
 
         #seniales para la venta
         self.codigo_barras.returnPressed.connect(self.agregar_producto_codigo)
@@ -41,7 +40,7 @@ class Mi_Ventana(QMainWindow):
         self.abrirTurno.triggered.connect(self.abrir_caja)
         self.botonCierreCaja.triggered.connect(self.cierre_caja)
         self.botonRendicionCaja.triggered.connect(self.rendicion_caja)
-
+        self.reporte_Ventas.triggered.connect(self.reporte_ventas)
         #ponemos la imagen de lupa como el icono del boton
         self.lupa.setIcon(QtGui.QIcon('lupo.png'))
         self.lupa.setIconSize(QtCore.QSize(self.lupa.width(),self.lupa.height()))
@@ -53,6 +52,7 @@ class Mi_Ventana(QMainWindow):
         self.lupa.clicked.connect(self.buscar_producto)
 
         self.ventanaCierre = VentanaCierre()
+        self.ventanaReporte = VentanaReportVentas()
 
         #RELOJ
         self.lcdNumber.setDigitCount(8)  # Para mostrar una hora en formato HH:MM:SS
@@ -75,6 +75,17 @@ class Mi_Ventana(QMainWindow):
         self.InventarioLEditar.clicked.connect(self.EditarLInventario)
         self.InventarioPEditar.clicked.connect(self.EditarPInventario)
 
+        if inventario.lista_cajas[-1].estado:
+            titulo = 'Recordatorio'
+            cuerpo = 'Recuerde abrir una caja para proceder con las ventas'
+            mensaje(titulo,cuerpo)
+
+    def des_habilitar_ventas(self):
+        if inventario.lista_cajas[-1].estado:
+            self.principal.setTabEnabled(0,False) #deshabilita el tab con indice 0 
+        else:
+            self.principal.setTabEnabled(0,True)
+
     def BorrarLInventario(self):
         fila = self.tablaLibros.currentRow()
         codigo = self.tablaLibros.item(fila,0).text()
@@ -92,28 +103,31 @@ class Mi_Ventana(QMainWindow):
             genero = self.tablaLibros.item(fila,5).text()
             anio = self.tablaLibros.item(fila,6).text()
             num = self.tablaLibros.item(fila,7).text()
+        
+        
+            dialogo = DialogEditarLibro(codigo,nombre,precio,cantidad,autor,genero,anio,num)
+            with open('stylesheet.qss','r') as file:
+                dialogo.setStyleSheet(file.read())
+            if(dialogo.exec()):
+                nuevos_datos= dialogo.get_datos()
+                codigo = int(nuevos_datos[0])
+                nombre = nuevos_datos[1]
+                precio = float(nuevos_datos[2])
+                cantidad = int(nuevos_datos[3])
+                autor = nuevos_datos[4]
+                genero = nuevos_datos[5]
+                anio = int(nuevos_datos[6])
+                num = int(nuevos_datos[7])
+                for productos_existentes in inventario.lista_inventario:
+                    if str(productos_existentes.codigo) == str(codigo):
+
+                        productos_existentes.editar(nombre,precio,cantidad,autor,genero,anio,num)
+                        productos_existentes.editar_tabla(nombre,precio,cantidad,autor,genero,anio,num)
+                        self.cargar_inventarioL()
         except AttributeError:
-            print("selecciona un libro primero")
-
-        dialogo = DialogEditarLibro(codigo,nombre,precio,cantidad,autor,genero,anio,num)
-        with open('stylesheet.qss','r') as file:
-            dialogo.setStyleSheet(file.read())
-        if(dialogo.exec()):
-            nuevos_datos= dialogo.get_datos()
-            codigo = int(nuevos_datos[0])
-            nombre = nuevos_datos[1]
-            precio = float(nuevos_datos[2])
-            cantidad = int(nuevos_datos[3])
-            autor = nuevos_datos[4]
-            genero = nuevos_datos[5]
-            anio = int(nuevos_datos[6])
-            num = int(nuevos_datos[7])
-            for productos_existentes in inventario.lista_inventario:
-                if str(productos_existentes.codigo) == str(codigo):
-
-                    productos_existentes.editar(nombre,precio,cantidad,autor,genero,anio,num)
-                    productos_existentes.editar_tabla(nombre,precio,cantidad,autor,genero,anio,num)
-                    self.cargar_inventarioL()
+            titulo = 'Error'
+            cuerpo = 'Seleccione un libro primero'
+            mensaje(titulo,cuerpo)
 
     def EditarPInventario(self):
         try:
@@ -123,26 +137,28 @@ class Mi_Ventana(QMainWindow):
             precio = self.tablaProductos.item(fila,2).text()
             cantidad = self.tablaProductos.item(fila,3).text()
 
+        
+
+            dialogo = DialogEditarProducto(codigo,nombre,precio,cantidad)
+            with open('stylesheet.qss','r') as file:
+                dialogo.setStyleSheet(file.read())
+            if(dialogo.exec()):
+                nuevos_datos= dialogo.get_datos()
+                codigo = int(nuevos_datos[0])
+                nombre = nuevos_datos[1]
+                precio = float(nuevos_datos[2])
+                cantidad = int(nuevos_datos[3])
+
+                for productos_existentes in inventario.lista_inventario:
+                    if str(productos_existentes.codigo) == str(codigo):
+
+                        productos_existentes.editar(nombre,precio,cantidad)
+                        productos_existentes.editar_tabla(nombre,precio,cantidad)
+                        self.cargar_inventarioP()
         except AttributeError:
-            print("selecciona un Producto primero")
-
-        dialogo = DialogEditarProducto(codigo,nombre,precio,cantidad)
-        with open('stylesheet.qss','r') as file:
-            dialogo.setStyleSheet(file.read())
-        if(dialogo.exec()):
-            nuevos_datos= dialogo.get_datos()
-            codigo = int(nuevos_datos[0])
-            nombre = nuevos_datos[1]
-            precio = float(nuevos_datos[2])
-            cantidad = int(nuevos_datos[3])
-
-            for productos_existentes in inventario.lista_inventario:
-                if str(productos_existentes.codigo) == str(codigo):
-
-                    productos_existentes.editar(nombre,precio,cantidad)
-                    productos_existentes.editar_tabla(nombre,precio,cantidad)
-                    self.cargar_inventarioP()
-
+                    titulo = 'Error'
+                    cuerpo = 'Seleccione un Producto primero'
+                    mensaje(titulo,cuerpo)
     def BorrarPInventario(self):
         fila = self.tablaProductos.currentRow()
         codigo = self.tablaProductos.item(fila,0).text()
@@ -269,21 +285,40 @@ class Mi_Ventana(QMainWindow):
             if(dialogo.exec()):
                 datos= dialogo.get_datos()
                 inventario.abrir_caja(int(datos[0]),datos[1])
+                inventario.lista_cajas[-1].insertar_caja()
+            
+            self.des_habilitar_ventas()
         else:
-            print("Ya hay una caja abierta")
+            titulo = 'Error'
+            cuerpo = 'Ya hay una caja abierta'
+            mensaje(titulo,cuerpo)
     def cierre_caja(self):
         if inventario.lista_cajas[-1].estado:
-            print("La caja ya esta cerrada")
+            titulo = 'Error'
+            cuerpo = 'La caja ya esta cerrada!'
+            mensaje(titulo,cuerpo)
         else:
             inventario.lista_cajas[-1].estado = True
-            print("Caja Cerrada")
+            titulo = 'Cierre'
+            cuerpo = 'Caja cerrada!'
+            mensaje(titulo,cuerpo)
+            self.des_habilitar_ventas()
     def rendicion_caja(self):
-        self.ventanaCierre.show()
-        ingresos = str(inventario.lista_cajas[-1].calcular_ingresos())
-        turno = str(inventario.lista_cajas[-1].turno)
-        self.ventanaCierre.ingresosInput.setText(ingresos)
-        self.ventanaCierre.numeroTurno.setText(turno)
+        if inventario.lista_cajas[-1].estado:
+            self.ventanaCierre.show()
+            ingresos = str(inventario.lista_cajas[-1].calcular_ingresos())
+            turno = str(inventario.lista_cajas[-1].turno)
+            self.ventanaCierre.ingresosInput.setText(ingresos)
+            self.ventanaCierre.numeroTurno.setText(turno)
+        else:
+            titulo = 'Error'
+            cuerpo = 'Primero cierre la caja.'
+            mensaje(titulo,cuerpo)
+        
 
+    def reporte_ventas(self):
+        self.ventanaReporte.show()
+        self.ventanaReporte.cargar_comboBox()
 
     def buscar_producto(self):
         with open('stylesheet.qss','r') as file:
@@ -321,9 +356,13 @@ class Mi_Ventana(QMainWindow):
                         self.codigo_barras.setText('')
                         self.spinBox.setValue(1)
                         return 0
-                print("No existe un producto con ese codigo")
+                titulo = 'Error'
+                cuerpo = 'No existe un producto con ese codigo!'
+                mensaje(titulo,cuerpo)
             except AttributeError:
-                print("No existe un producto con ese codigo")
+                titulo = 'Error'
+                cuerpo = 'No existe un producto con ese codigo!'
+                mensaje(titulo,cuerpo)
     def remover_articulo(self):
         item = self.tableWidget.currentItem()
         if (item == None):
@@ -358,12 +397,14 @@ class Mi_Ventana(QMainWindow):
         inventario.lista_cajas[-1].ventas[-1].insertar_venta()#guardamos la venta en la tabla ventas de la base de datos
         total = float(self.total.text())
         inventario.lista_cajas[-1].vender(total)#sumamos el total de la venta a la caja 
+        inventario.lista_cajas[-1].Actualizar_Caja()#Guardamos los datos de la caja en caso de que el programa se cierre, asi mantendremos los datos
         self.cargar_inventarioL()#volvemos a cargar el inventario asi se ve reflejado en la tabla de inventario
         self.cargar_inventarioP()
 
         self.tableWidget.clearContents()
         self.tableWidget.setRowCount(0)
         self.total.setText('0')
+
 
     def cargar_inventarioL(self):
         #Todo 
@@ -496,11 +537,11 @@ class VentanaCierre(QMainWindow):
         self.retiroInput.setValidator(validador)
         self.egresosInput.setValidator(validador)
 
-        self.dosmil.returnPressed.connect(self.efectivo)
-        self.mil.returnPressed.connect(self.efectivo)
-        self.quinientos.returnPressed.connect(self.efectivo)
-        self.doscientos.returnPressed.connect(self.efectivo)
-        self.cien.returnPressed.connect(self.efectivo)
+        self.dosmil.editingFinished.connect(self.efectivo)
+        self.mil.editingFinished.connect(self.efectivo)
+        self.quinientos.editingFinished.connect(self.efectivo)
+        self.doscientos.editingFinished.connect(self.efectivo)
+        self.cien.editingFinished.connect(self.efectivo)
         self.botonFinalizar.clicked.connect(self.finalizar)
 
     def efectivo(self):
@@ -522,8 +563,8 @@ class VentanaCierre(QMainWindow):
         egresos = int(self.egresosInput.text())
         efectivoARendir = total - tarjetas - transferencias -egresos- retiros
         efectivoRendido = int(self.efectivoRendidoLabel.text()) 
-        sobrante = efectivoRendido - efectivoARendir 
-        inventario.lista_cajas[-1].sobrante = sobrante 
+        sobrante = efectivoRendido - efectivoARendir
+        inventario.lista_cajas[-1].sobranteFaltante = sobrante 
 
         archivo = open('Reportes.csv', 'a', newline='')
         escritor_csv = csv.writer(archivo, delimiter=',', quotechar='"')
@@ -532,8 +573,57 @@ class VentanaCierre(QMainWindow):
         escritor_csv.writerow([turno, cajero, total,tarjetas, transferencias, retiros,egresos, efectivoARendir, efectivoRendido,sobrante])
         # Cerrar archivo
         archivo.close()
+
+        inventario.lista_cajas[-1].Actualizar_Caja()
+        titulo = 'Cierre'
+        cuerpo = 'Caja guardada correctamente'
+        mensaje(titulo,cuerpo)
+        
         self.close()
 
+class VentanaReportVentas(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        uic.loadUi('reportVentas.ui',self)
+        self.conn = sqlite3.connect('libreria.db')
+        self.cursor = self.conn.cursor()
+    
+        self.botonCargar.clicked.connect(self.cargar_ventas)
+        
+    def cargar_comboBox(self):
+        self.cursor.execute("SELECT * FROM Caja")
+        resultados = self.cursor.fetchall()
+        for resultado in resultados:
+            texto = "Turno :" + str(resultado[1]) +" "+"Cajero: " + str(resultado[2])
+            self.comboBox.addItem(texto)
+    def cargar_ventas(self):
+        #Limpiamos la tabla en caso de que ya se haya hecho una consulta previamente
+        self.tableWidget.clearContents()
+        self.tableWidget.setRowCount(0)
+
+        indice = self.comboBox.currentIndex()
+        indice +=1
+        self.cursor.execute("SELECT * FROM Ventas WHERE turno_id = ?", (indice,))
+        resultados = self.cursor.fetchall()
+        for resultado in resultados:
+            fila = self.tableWidget.rowCount()
+            self.tableWidget.setRowCount(fila + 1)
+            self.tableWidget.setItem(fila, 0, QTableWidgetItem(str(resultado[1])))
+            self.tableWidget.setItem(fila, 1, QTableWidgetItem(str(resultado[2])))
+            self.tableWidget.setItem(fila, 2, QTableWidgetItem(str(resultado[3])))
+            self.tableWidget.setItem(fila, 3, QTableWidgetItem(str(resultado[4])))
+            self.tableWidget.setItem(fila, 4, QTableWidgetItem(str(resultado[5])))
+
+def mensaje(titulo,cuerpo):
+    mensaje = QMessageBox()
+
+    mensaje.setWindowTitle(titulo)
+    mensaje.setText(cuerpo)
+
+
+    mensaje.setIcon(QMessageBox.Icon.NoIcon)
+    mensaje.setStandardButtons(QMessageBox.StandardButton.Ok)
+    resultado = mensaje.exec()
 app = QApplication([])
 
 ventana = Mi_Ventana()

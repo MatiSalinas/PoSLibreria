@@ -1,2 +1,6 @@
-Turno,Cajero,Total Caja,Tarjetas,Transferencas,Retiros,Egresos,Efectivo a rendir,Efectivo Rendido,Sobrante/faltante
-1,Matias,28800.0,10000,0,0,0,18800.0,17100,-1700.0
+1,Matias,28800.0,9800,0,0,0,19000.0,19000,0.0
+1,Matias,28800.0,9800,0,0,0,19000.0,19000,0.0
+1,Matias,28800.0,9800,0,0,0,19000.0,19000,0.0
+1,Matias,28800.0,9900,0,0,0,18900.0,19000,100.0
+1,Matias,28800.0,10000,0,0,0,18800.0,19000,200.0
+2,Matias,8200.0,0,0,0,0,8200.0,13800,5600.0
