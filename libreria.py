@@ -26,6 +26,11 @@ class Mi_Ventana(QMainWindow):
         self.tableWidget.setColumnWidth(4, int(tabla_ancho*(1/5)))
         self.tableWidget.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)#Desabilita la edicion de las tablas
 
+
+        self.tablaLibros.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)#Desabilita la edicion de las tablas
+
+        self.tablaProductos.setEditTriggers(QAbstractItemView.EditTrigger.NoEditTriggers)#Desabilita la edicion de las tablas
+
         self.cargar_inventarioL()#Cargamos el inventario en las tablas de inventario
         self.cargar_inventarioP()
         self.des_habilitar_ventas()
