@@ -234,6 +234,8 @@ class Mi_Ventana(QMainWindow):
                     self.ingreso_precio.setText(str(producto_existente.precio))
     
     def guardar_compra(self):
+        
+        
         def limpiar():
             self.ingreso_codigo.setText('')
             self.ingreso_nombre.setText('')
@@ -243,8 +245,13 @@ class Mi_Ventana(QMainWindow):
             self.ingreso_paginas.setText('')
             self.ingreso_anio.setText('')
             self.ingreso_autor.setText('')
-        if self.rb_crearLibro.isChecked():
-            codigo =int(self.ingreso_codigo.text())
+        if self.rb_crearLibro.isChecked():    
+            codigo =int(self.ingreso_codigo.text())  
+            for producto_existente in inventario.lista_inventario:
+                if codigo == producto_existente.codigo: 
+                    mensaje('error','ese codigo ya existe')
+                    self.ingreso_codigo.setText('')
+                    return
             nombre = self.ingreso_nombre.text()
             precio = float(self.ingreso_precio.text())
             cantidad = int(self.ingreso_cantidad.text())
@@ -257,9 +264,14 @@ class Mi_Ventana(QMainWindow):
             libroNuevo.insertar_libro()
             self.cargar_inventarioL()
             limpiar()
-            
-        if self.rb_CrearProducto.isChecked():
-            codigo =int(self.ingreso_codigo.text())
+                    
+        if self.rb_CrearProducto.isChecked():            
+            codigo =int(self.ingreso_codigo.text())          
+            for producto_existente in inventario.lista_inventario:
+                if codigo == producto_existente.codigo: 
+                    mensaje('error','ese codigo ya existe')
+                    self.ingreso_codigo.setText('')
+                    return 
             nombre = self.ingreso_nombre.text()
             precio = float(self.ingreso_precio.text())
             cantidad = int(self.ingreso_cantidad.text())
@@ -286,7 +298,7 @@ class Mi_Ventana(QMainWindow):
                     producto_existente.editar_tabla(producto_existente.nombre,producto_existente.precio,cantidad)
                     limpiar()
                     self.cargar_inventarioP()
-
+                        
     def abrir_caja(self):
         if inventario.lista_cajas[-1].estado:
             dialogo = DialogAperturaCaja()
