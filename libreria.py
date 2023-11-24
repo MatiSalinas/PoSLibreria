@@ -73,6 +73,11 @@ class Mi_Ventana(QMainWindow):
         self.rb_entradaProducto.toggled.connect(self.ComprasRadio)
         self.ingreso_codigo.returnPressed.connect(self.cargar_compras_codigo)
         self.botonGuardarCompras.clicked.connect(self.guardar_compra)
+        validador = QtGui.QIntValidator(0, 10000000)
+        self.ingreso_precio.setValidator(validador)
+        self.ingreso_paginas.setValidator(validador)
+        self.ingreso_anio.setValidator(validador) #validadores para asegurarnos que no se ingresen caracteres que no sean numeros en la parte de compras
+
 
         #Inventario
         self.InventarioLBorrar.clicked.connect(self.BorrarLInventario)
@@ -90,6 +95,38 @@ class Mi_Ventana(QMainWindow):
             self.principal.setTabEnabled(0,False) #deshabilita el tab con indice 0 
         else:
             self.principal.setTabEnabled(0,True)
+
+
+    def cargar_inventarioL(self):
+        #Todo 
+        #re size las columnas asi ocupan toda la tabla
+        fila = 0
+        self.tablaLibros.setRowCount(fila)
+        for item in inventario.lista_inventario:
+            if type(item) == libreriaClases.Libro:
+                fila = self.tablaLibros.rowCount()
+                self.tablaLibros.setRowCount(fila + 1)
+                self.tablaLibros.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
+                self.tablaLibros.setItem(fila, 1, QTableWidgetItem(item.nombre))
+                self.tablaLibros.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
+                self.tablaLibros.setItem(fila, 3, QTableWidgetItem(str(item.cantidad)))
+                self.tablaLibros.setItem(fila, 4, QTableWidgetItem(str(item.autor)))
+                self.tablaLibros.setItem(fila, 5, QTableWidgetItem(str(item.genero)))
+                self.tablaLibros.setItem(fila, 6, QTableWidgetItem(str(item.anio)))
+                self.tablaLibros.setItem(fila, 7, QTableWidgetItem(str(item.num_paginas)))
+    def cargar_inventarioP(self):
+        #Todo
+        #re size las columnas asi ocupan toda la tabla
+        fila = 0
+        self.tablaProductos.setRowCount(fila)
+        for item in inventario.lista_inventario:
+            if type(item) == libreriaClases.Producto:
+                fila = self.tablaProductos.rowCount()
+                self.tablaProductos.setRowCount(fila + 1)
+                self.tablaProductos.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
+                self.tablaProductos.setItem(fila, 1, QTableWidgetItem(item.nombre))
+                self.tablaProductos.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
+                self.tablaProductos.setItem(fila, 3, QTableWidgetItem(str(item.cantidad)))
 
     def BorrarLInventario(self):
         try:
@@ -240,7 +277,6 @@ class Mi_Ventana(QMainWindow):
     
     def guardar_compra(self):
         
-        
         def limpiar():
             self.ingreso_codigo.setText('')
             self.ingreso_nombre.setText('')
@@ -303,7 +339,8 @@ class Mi_Ventana(QMainWindow):
                     producto_existente.editar_tabla(producto_existente.nombre,producto_existente.precio,cantidad)
                     limpiar()
                     self.cargar_inventarioP()
-                        
+
+
     def abrir_caja(self):
         if inventario.lista_cajas[-1].estado:
             dialogo = DialogAperturaCaja()
@@ -432,37 +469,6 @@ class Mi_Ventana(QMainWindow):
         self.tableWidget.setRowCount(0)
         self.total.setText('0')
 
-
-    def cargar_inventarioL(self):
-        #Todo 
-        #re size las columnas asi ocupan toda la tabla
-        fila = 0
-        self.tablaLibros.setRowCount(fila)
-        for item in inventario.lista_inventario:
-            if type(item) == libreriaClases.Libro:
-                fila = self.tablaLibros.rowCount()
-                self.tablaLibros.setRowCount(fila + 1)
-                self.tablaLibros.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
-                self.tablaLibros.setItem(fila, 1, QTableWidgetItem(item.nombre))
-                self.tablaLibros.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
-                self.tablaLibros.setItem(fila, 3, QTableWidgetItem(str(item.cantidad)))
-                self.tablaLibros.setItem(fila, 4, QTableWidgetItem(str(item.autor)))
-                self.tablaLibros.setItem(fila, 5, QTableWidgetItem(str(item.genero)))
-                self.tablaLibros.setItem(fila, 6, QTableWidgetItem(str(item.anio)))
-                self.tablaLibros.setItem(fila, 7, QTableWidgetItem(str(item.num_paginas)))
-    def cargar_inventarioP(self):
-        #Todo
-        #re size las columnas asi ocupan toda la tabla
-        fila = 0
-        self.tablaProductos.setRowCount(fila)
-        for item in inventario.lista_inventario:
-            if type(item) == libreriaClases.Producto:
-                fila = self.tablaProductos.rowCount()
-                self.tablaProductos.setRowCount(fila + 1)
-                self.tablaProductos.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
-                self.tablaProductos.setItem(fila, 1, QTableWidgetItem(item.nombre))
-                self.tablaProductos.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
-                self.tablaProductos.setItem(fila, 3, QTableWidgetItem(str(item.cantidad)))
 class VentanaBuscar(QMainWindow):
     def __init__(self,padre):
         super().__init__()
