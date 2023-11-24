@@ -74,7 +74,8 @@ class Mi_Ventana(QMainWindow):
         self.ingreso_codigo.returnPressed.connect(self.cargar_compras_codigo)
         self.botonGuardarCompras.clicked.connect(self.guardar_compra)
         validador = QtGui.QIntValidator(0, 10000000)
-        self.ingreso_precio.setValidator(validador)
+        validador_float = QtGui.QDoubleValidator(0.00,99.99,2)
+        self.ingreso_precio.setValidator(validador_float)
         self.ingreso_paginas.setValidator(validador)
         self.ingreso_anio.setValidator(validador) #validadores para asegurarnos que no se ingresen caracteres que no sean numeros en la parte de compras
 
@@ -287,40 +288,45 @@ class Mi_Ventana(QMainWindow):
             self.ingreso_anio.setText('')
             self.ingreso_autor.setText('')
         if self.rb_crearLibro.isChecked():    
-            codigo =int(self.ingreso_codigo.text())  
-            for producto_existente in inventario.lista_inventario:
-                if codigo == producto_existente.codigo: 
-                    mensaje('error','ese codigo ya existe')
-                    self.ingreso_codigo.setText('')
-                    return
-            nombre = self.ingreso_nombre.text()
-            precio = float(self.ingreso_precio.text())
-            cantidad = int(self.ingreso_cantidad.text())
-            genero = self.ingreso_genero.text()
-            paginas =self.ingreso_paginas.text()
-            anio =self.ingreso_anio.text()
-            autor =self.ingreso_autor.text()
-            libroNuevo = libreriaClases.Libro(nombre,codigo,precio,cantidad,autor,genero,anio,paginas)
-            inventario.lista_inventario.append(libroNuevo)
-            libroNuevo.insertar_libro()
-            self.cargar_inventarioL()
-            limpiar()
-                    
-        if self.rb_CrearProducto.isChecked():            
-            codigo =int(self.ingreso_codigo.text())          
-            for producto_existente in inventario.lista_inventario:
-                if codigo == producto_existente.codigo: 
-                    mensaje('error','ese codigo ya existe')
-                    self.ingreso_codigo.setText('')
-                    return 
-            nombre = self.ingreso_nombre.text()
-            precio = float(self.ingreso_precio.text())
-            cantidad = int(self.ingreso_cantidad.text())
-            productoNuevo = libreriaClases.Producto(nombre,codigo,precio,cantidad)
-            inventario.lista_inventario.append(productoNuevo)
-            productoNuevo.insertar_producto()
-            self.cargar_inventarioP()
-            limpiar()
+            try:
+                codigo =int(self.ingreso_codigo.text())  
+                for producto_existente in inventario.lista_inventario:
+                    if codigo == producto_existente.codigo: 
+                        mensaje('error','ese codigo ya existe')
+                        self.ingreso_codigo.setText('')
+                        return
+                nombre = self.ingreso_nombre.text()
+                precio = float(self.ingreso_precio.text())
+                cantidad = int(self.ingreso_cantidad.text())
+                genero = self.ingreso_genero.text()
+                paginas =self.ingreso_paginas.text()
+                anio =self.ingreso_anio.text()
+                autor =self.ingreso_autor.text()
+                libroNuevo = libreriaClases.Libro(nombre,codigo,precio,cantidad,autor,genero,anio,paginas)
+                inventario.lista_inventario.append(libroNuevo)
+                libroNuevo.insertar_libro()
+                self.cargar_inventarioL()
+                limpiar()
+            except ValueError:
+                mensaje('error','Asegurese de llenar todos los campos')
+        if self.rb_CrearProducto.isChecked():
+            try:         
+                codigo =int(self.ingreso_codigo.text())          
+                for producto_existente in inventario.lista_inventario:
+                    if codigo == producto_existente.codigo: 
+                        mensaje('error','ese codigo ya existe')
+                        self.ingreso_codigo.setText('')
+                        return 
+                nombre = self.ingreso_nombre.text()
+                precio = float(self.ingreso_precio.text())
+                cantidad = int(self.ingreso_cantidad.text())
+                productoNuevo = libreriaClases.Producto(nombre,codigo,precio,cantidad)
+                inventario.lista_inventario.append(productoNuevo)
+                productoNuevo.insertar_producto()
+                self.cargar_inventarioP()
+                limpiar()
+            except ValueError:
+                mensaje('error','Asegurese de llenar todos los campos')
         if self.rb_entradaLibro.isChecked():
             codigo =int(self.ingreso_codigo.text())
             for producto_existente in inventario.lista_inventario:
