@@ -270,11 +270,15 @@ class Mi_Ventana(QMainWindow):
                     self.ingreso_paginas.setText(str(producto_existente.num_paginas))
                     self.ingreso_anio.setText(str(producto_existente.anio))
                     self.ingreso_autor.setText(producto_existente.autor)
+                    return
+            mensaje('Error','No hay un Libro con ese codigo')
         if self.rb_entradaProducto.isChecked():
             for producto_existente in inventario.lista_inventario:
                 if codigo == str(producto_existente.codigo) and type(producto_existente)==libreriaClases.Producto:
                     self.ingreso_nombre.setText(producto_existente.nombre)
                     self.ingreso_precio.setText(str(producto_existente.precio))
+                    return
+            mensaje('Error','No hay un producto con ese codigo')
     
     def guardar_compra(self):
         
