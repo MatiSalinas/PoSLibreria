@@ -71,12 +71,13 @@ class Mi_Ventana(QMainWindow):
         self.rb_CrearProducto.toggled.connect(self.ComprasRadio)
         self.rb_entradaLibro.toggled.connect(self.ComprasRadio)
         self.rb_entradaProducto.toggled.connect(self.ComprasRadio)
-        self.ingreso_codigo.returnPressed.connect(self.cargar_compras_codigo)
+        self.ingreso_codigo.editingFinished.connect(self.cargar_compras_codigo)
         self.botonGuardarCompras.clicked.connect(self.guardar_compra)
         validador = QtGui.QIntValidator(0, 10000000)
         validador_float = QtGui.QDoubleValidator(0.00,99.99,2)
         self.ingreso_precio.setValidator(validador_float)
         self.ingreso_paginas.setValidator(validador)
+        self.ingreso_cantidad.setValidator(validador)
         self.ingreso_anio.setValidator(validador) #validadores para asegurarnos que no se ingresen caracteres que no sean numeros en la parte de compras
 
 
@@ -106,7 +107,7 @@ class Mi_Ventana(QMainWindow):
         for item in inventario.lista_inventario:
             if type(item) == libreriaClases.Libro:
                 fila = self.tablaLibros.rowCount()
-                self.tablaLibros.setRowCount(fila + 1)
+                self.tablaLibros.setRowCount(fila+1)
                 self.tablaLibros.setItem(fila, 0, QTableWidgetItem(str(item.codigo)))
                 self.tablaLibros.setItem(fila, 1, QTableWidgetItem(item.nombre))
                 self.tablaLibros.setItem(fila, 2, QTableWidgetItem(str(item.precio)))
@@ -372,7 +373,7 @@ class Mi_Ventana(QMainWindow):
             cuerpo = 'La caja ya esta cerrada!'
             mensaje(titulo,cuerpo)
         else:
-            inventario.lista_cajas[-1].estado = True
+            inventario.lista_cajas[-1].cerrar_caja()
             titulo = 'Cierre'
             cuerpo = 'Caja cerrada!'
             mensaje(titulo,cuerpo)
@@ -641,6 +642,7 @@ class VentanaReportVentas(QMainWindow):
         self.botonCargar.clicked.connect(self.cargar_ventas)
         
     def cargar_comboBox(self):
+        self.comboBox.clear()
         self.cursor.execute("SELECT * FROM Caja")
         resultados = self.cursor.fetchall()
         for resultado in resultados:
