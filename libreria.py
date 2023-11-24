@@ -147,7 +147,7 @@ class Mi_Ventana(QMainWindow):
             precio = self.tablaProductos.item(fila,2).text()
             cantidad = self.tablaProductos.item(fila,3).text()
 
-        
+
 
             dialogo = DialogEditarProducto(codigo,nombre,precio,cantidad)
             with open('stylesheet.qss','r') as file:
@@ -534,6 +534,13 @@ class DialogEditarProducto(QDialog):
         self.NombreInput.setText(nombreActual)
         self.PrecioInput.setText(precioActual)
         self.CantidadInput.setText(cantidadActual)
+
+    def get_datos(self):
+        codigo = self.CodigoInput.text()
+        Nombre = self.NombreInput.text()
+        Precio = self.PrecioInput.text()
+        Cantidad = self.CantidadInput.text()
+        return codigo,Nombre,Precio,Cantidad
 
 class DialogAperturaCaja(QDialog):
     def __init__(self):
